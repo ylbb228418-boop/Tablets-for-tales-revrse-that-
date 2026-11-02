@@ -76,6 +76,7 @@ button, input { -webkit-tap-highlight-color: transparent; }
 #openBookBtn:hover { transform: translateY(-3px) rotate(-1deg); box-shadow: 0 9px 0 #6ba998, 0 15px 20px #001b2b55; }
 #openBookBtn:active { transform: translateY(4px); box-shadow: 0 2px 0 #6ba998; }
 .cover-note { position: relative; color: #bbd8d3; margin-top: 20px; font-size: 11px; letter-spacing: .05em; }
+.dino-cover-hint { position: relative; max-width: 420px; margin-top: 13px; padding: 10px 14px; border: 1px solid #f3d08f88; border-radius: 16px; background: #fff2cf12; color: #ffe5b2; font-size: 12px; line-height: 1.45; }
 #bookContainer { display: none; position: relative; width: min(860px, calc(100% - 160px)); margin: 34px auto 24px; z-index: 1; }
 .book { position: relative; perspective: 2000px; background: var(--paper); border: 3px solid #e8d7b9; border-radius: 40px; box-shadow: 0 8px 0 #dfceb0, 0 13px 0 #f2e4cd, 0 18px 0 #32716b, 0 35px 70px #00192870; }
 .page { position: relative; display: none; flex-direction: column; width: 100%; background: var(--paper); border-radius: 37px; padding: 32px; transform-origin: left center; backface-visibility: hidden; }
@@ -87,6 +88,21 @@ button, input { -webkit-tap-highlight-color: transparent; }
 .page-image { width: 100%; height: clamp(180px, 30vw, 300px); object-fit: cover; border-radius: 25px; border: 4px solid #fff; box-shadow: 0 4px 0 #ebdfc9; margin-bottom: 23px; }
 .page-title { font: 1000 clamp(28px, 4vw, 42px) var(--bubble); letter-spacing: -.035em; color: #15545a; text-align: center; margin: 0 0 14px; }
 .page-story { font: 500 clamp(17px, 2vw, 21px)/1.7 var(--body); color: #294657; margin: 0 auto 24px; text-align: left; max-width: 690px; }
+.dino-egg { position: absolute; z-index: 8; width: 27px; height: 27px; min-height: 27px; padding: 0; border: 1px solid #927b63; border-radius: 50%; background: #d9c9a766; box-shadow: 0 2px 5px #173d5022; color: #6f765c; font-size: 15px; line-height: 24px; opacity: .58; transform: rotate(-8deg); transition: transform .18s, filter .18s, opacity .18s; }
+.dino-egg:hover, .dino-egg:focus-visible { transform: rotate(8deg) scale(1.35); filter: brightness(1.18) saturate(1.15); opacity: 1; }
+.dino-egg.found { opacity: .34; filter: grayscale(1); cursor: default; }
+.dino-egg .dino-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dino-counter { display: none; position: fixed; top: 78px; right: 18px; z-index: 120; padding: 8px 12px; border: 2px solid #e8c88d; border-radius: 18px; background: #fff7df; color: #684a3d; font: 900 12px var(--body); box-shadow: 0 3px 0 #9c7054; }
+body.book-open .dino-counter { display: block; }
+.dino-toast { position: fixed; left: 50%; top: 82px; z-index: 320; transform: translate(-50%, -12px); padding: 12px 18px; border: 2px solid #e8c88d; border-radius: 22px; background: #fff7df; color: #684a3d; font: 900 14px var(--body); box-shadow: 0 5px 18px #001b2b44; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.dino-toast.show { opacity: 1; transform: translate(-50%, 0); }
+.dino-reward { position: fixed; inset: 0; z-index: 260; display: none; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 50% 30%, #355f87ee, #082b40f5 70%); }
+.dino-reward.show { display: flex; }
+.dino-reward-card { width: min(520px, 100%); padding: 30px 24px; border: 4px solid #ffd27d; border-radius: 30px; background: linear-gradient(#fff8e7, #f5d7a9); color: #183a4d; text-align: center; box-shadow: 0 12px 0 #6c3f37, 0 22px 50px #00131f88; }
+.dino-reward-card h2 { margin-bottom: 10px; color: #d76531; font: 1000 clamp(30px, 7vw, 52px) var(--bubble); }
+.dino-reward-card p { font-size: 17px; line-height: 1.55; }
+.dino-reward-card .guest { margin: 8px auto 16px; font-size: 58px; }
+.dino-reward-card button { margin-top: 18px; padding: 13px 25px; border: 0; border-radius: 24px; background: #ffad5e; color: #183a4d; box-shadow: 0 4px 0 #ad5e37; }
 .game-instruction { color: #235d56; background: #dcf3e5; border-radius: 20px 20px 0 0; padding: 13px 18px; text-align: center; font-size: 16px; font-weight: 800; line-height: 1.5; }
 .game-area { background: #eef8ef; border: 2px solid #bddccb; border-top: 0; border-radius: 0 0 25px 25px; padding: 20px; min-height: 250px; position: relative; }
 canvas { display: block; background: #102f44; border-radius: 18px; width: 100%; max-width: 100%; touch-action: none; }
@@ -130,6 +146,7 @@ body.book-open #pageIndicator { display: block; }
     #pageIndicator { bottom: 23px; padding: 10px 13px; font-size: 12px; }
     .memory-card { width: 54px; height: 62px; font-size: 10px; border-radius: 13px; }
     #muteBtn { top: 15px; right: 15px; }
+    .dino-counter { top: 70px; right: 12px; font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -207,13 +224,59 @@ body.book-open #pageIndicator { display: block; }
             .save-tools button { font-size: 11px; padding: 7px 9px; }
             #muteBtn { right: 10px; font-size: 11px; padding: 7px 10px; }
         }
+
+        /* Published-picture-book finish */
+        body { background: radial-gradient(ellipse at 50% -10%, #286b72 0, transparent 48%), linear-gradient(145deg, #061f32 0%, #0b3448 52%, #082b40 100%); }
+        #bookContainer { filter: drop-shadow(0 24px 28px #00152355); }
+        .book { border: 1px solid #cdb994; border-radius: 30px; background: #ead8b8; box-shadow: 0 3px 0 #b99d70, 0 10px 0 #f6e8cf, 0 16px 0 #37746d, 0 32px 70px #00192880; overflow: hidden; }
+        .book::before { content: ''; position: absolute; z-index: 3; left: 50%; top: 18px; bottom: 18px; width: 2px; transform: translateX(-50%); background: linear-gradient(transparent, #a78b6755 15%, #a78b6755 85%, transparent); pointer-events: none; }
+        .page { padding: clamp(25px, 4vw, 42px); border-radius: 29px; background: linear-gradient(110deg, #fffdf6 0%, #fffaf0 54%, #f8edd8 100%); box-shadow: inset 0 0 0 1px #ffffffaa, inset 0 -18px 35px #e7d3ae22; }
+        .page::after { content: ''; position: absolute; inset: 12px; border: 1px solid #d9c7a555; border-radius: 22px; pointer-events: none; }
+        .page-kicker { display: inline-block; align-self: center; padding: 6px 12px; margin-bottom: 12px; border: 1px solid #e6a36f88; border-radius: 999px; background: #fff5df; color: #b85d35; font-size: 10px; letter-spacing: .2em; box-shadow: 0 2px 0 #ead3ad; }
+        .story-art { z-index: 1; border-radius: 21px; box-shadow: 0 8px 0 #e2cfac, 0 13px 24px #193e4040; }
+        .story-art .page-image { border: 5px solid #fffdf5; border-radius: 21px; box-shadow: none; }
+        .page-title { position: relative; z-index: 1; text-shadow: 0 2px 0 #d7eee2; }
+        .page-title::after { content: ''; display: block; width: 56px; height: 4px; margin: 12px auto 0; border-radius: 5px; background: #ff9b56; box-shadow: 0 2px 0 #d8753e; }
+        .page-story { position: relative; z-index: 1; max-width: 650px; margin-bottom: 27px; color: #314c56; letter-spacing: .005em; }
+        .page-story::first-letter { float: left; padding: 4px 8px 0 0; color: #d86630; font: 1000 42px/0.85 var(--bubble); }
+        .game-instruction { position: relative; z-index: 1; border: 1px solid #b9d9c8; border-bottom: 0; background: linear-gradient(135deg, #e6f8eb, #d2efe1); box-shadow: inset 0 1px #ffffffaa; letter-spacing: .01em; }
+        .game-area { z-index: 1; border-color: #b9d9c8; background: linear-gradient(145deg, #f4fbf2, #e8f4e9); box-shadow: inset 0 1px #ffffff, 0 5px 0 #d0e1cf; }
+        .game-btn, .continue-btn { border: 1px solid #0e4145; box-shadow: 0 4px 0 #0e4145, 0 7px 12px #123f4622; }
+        .game-btn:hover, .continue-btn:hover { box-shadow: 0 5px 0 #0e4145, 0 9px 15px #123f4633; }
+        .memory-card { transform: translateZ(0); box-shadow: 0 4px 0 #0e4145, inset 0 1px #ffffff55; transition: transform .18s, background .2s, box-shadow .18s; }
+        .memory-card:hover:not(.matched) { transform: translateY(-3px) rotate(-1deg); }
+        .memory-card.matched { box-shadow: 0 3px 0 #79b8a4; }
+        .reader-rocket { box-shadow: 0 5px 14px #082b4044; }
+        .assembly-workshop { position: relative; min-height: 245px; padding: 32px 16px 38px; overflow: hidden; border: 3px solid #173d50; background-size: 58px 58px, auto !important; box-shadow: inset 0 0 0 2px #ffffff18, inset 0 -30px 0 #061f2a55; }
+        .assembly-workshop::before, .assembly-workshop::after { content: ''; position: absolute; top: 30px; width: 16px; height: 80px; border: 3px solid #d6b77a; opacity: .55; }
+        .assembly-workshop::before { left: 17px; transform: rotate(18deg); } .assembly-workshop::after { right: 17px; transform: rotate(-24deg); }
+        .assembly-label { position: absolute; z-index: 3; left: 17px; top: 12px; color: #f4f7ee; font: 900 11px var(--body); letter-spacing: .14em; }
+        .assembly-tools { position: absolute; z-index: 3; right: 17px; top: 13px; color: #b9f2dc; font: 800 9px var(--body); letter-spacing: .08em; }
+        .assembly-preview { position: relative; z-index: 2; width: min(430px, 96%); margin: 8px auto 0; filter: drop-shadow(0 14px 8px #061f2a88); }
+        .assembly-preview svg { display: block; width: 100%; height: auto; }
+        .assembly-bench { position: absolute; z-index: 1; left: 6%; right: 6%; bottom: 15px; height: 27px; border: 3px solid #173d50; border-radius: 8px; background: linear-gradient(#d48a4e, #7c4735); box-shadow: 0 8px 0 #061f2a88; }
+        .assembly-parts-table { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 2px auto 15px; padding: 15px 12px 12px; border: 2px solid #c58b5a; border-radius: 18px; background: linear-gradient(145deg, #d59a62, #97603f); box-shadow: inset 0 2px #f5d19b88, 0 4px 0 #6c4638; }
+        .physical-part { display: grid; place-items: center; gap: 3px; width: 92px; min-height: 82px; padding: 5px; border: 2px solid #8a573e; border-radius: 12px; background: #f7ead0; color: #284b55; box-shadow: 0 4px 0 #6d4638, 0 2px 8px #321d1733; cursor: grab; }
+        .physical-part:hover { transform: translateY(-3px) rotate(-1deg); }
+        .physical-part svg { width: 76px; height: 46px; display: block; }
+        .physical-part span { font: 900 9px var(--body); letter-spacing: .04em; text-transform: uppercase; }
+        .physical-part[style*="display: none"] { display: none !important; }
+        .assembly-slots { position: relative; padding: 10px 8px 4px; border-radius: 18px; background: linear-gradient(#fffaf0, #f3dfc2); box-shadow: inset 0 2px #fff, 0 3px 0 #c7a87b; }
+        .assembly-slot-title { margin: 0 0 8px; color: #876044; font: 900 10px var(--body); letter-spacing: .12em; }
+        .drop-zone { background: #f6ead5; box-shadow: inset 0 2px #ffffffaa, 0 3px 0 #c9b28c; color: #284b55; min-width: 108px; min-height: 58px; padding: 8px 10px; vertical-align: middle; transition: transform .15s ease, background .15s ease, box-shadow .15s ease; }
+        .drop-zone span:last-child { display: block; font: 900 10px var(--body); letter-spacing: .03em; }
+        .drop-zone .slot-icon { display: block; min-height: 19px; color: #b46c47; font: 900 19px/19px Georgia, serif; }
+        .drop-zone.target-ready { background: #ffe19c; border-color: #f39a45; transform: translateY(-3px) scale(1.04); box-shadow: 0 0 0 4px #f5b75d55, 0 5px 0 #bd7b45; animation: slotPulse .8s ease-in-out infinite alternate; }
+        .drop-zone.filled { background: #b9f2dc; box-shadow: 0 3px 0 #79b8a4; }
+        @keyframes slotPulse { from { filter: brightness(1); } to { filter: brightness(1.12); } }
+        @media (max-width: 600px) { .book::before { display: none; } .page::after { inset: 8px; border-radius: 18px; } .page-story::first-letter { font-size: 36px; } }
     </style>
 </head>
 <body>
     <div class="save-tools"><button id="saveBookBtn" title="Download a personal book that remembers your drawing and page">Save My Book</button><button id="loadBookBtn" title="Restore a saved book file">Load Book</button></div>
     <input type="file" id="missionFileInput" accept=".html,text/html" hidden>
     <div id="saveNotice" role="status" aria-live="polite"></div>
-    <script type="application/json" id="savedMission">{"version":1,"currentPage":0,"completedGames":[],"rocket":{}}</script>
+    <script type="application/json" id="savedMission">{"version":1,"currentPage":0,"completedGames":[],"dinoFound":[],"rocket":{}}</script>
     <button id="muteBtn" aria-label="Mute sound" aria-pressed="false">Sound on</button>
 
     <div id="titlePage">
@@ -247,6 +310,7 @@ body.book-open #pageIndicator { display: block; }
         <h2>Turn a page. Play a little.<br>Dream a whole lot.</h2>
         <button id="openBookBtn">Let's explore &rarr;</button>
         <p class="cover-note">12 illustrated story pages &nbsp;&middot;&nbsp; 12 little adventures</p><p class="cover-save-note">Your drawing becomes the rocket in this adventure. Save My Book makes a file you can reopen next time.</p>
+        <p class="dino-cover-hint">Easter egg: every page has a dinosaur toy hidden somewhere. Find all 12 to unlock a special in-game guest visit and a fireworks reward!</p>
     </div>
 
     <div id="bookContainer">
@@ -259,6 +323,8 @@ body.book-open #pageIndicator { display: block; }
     <button class="nav-btn" id="nextBtn" aria-label="Next page">▶</button>
 
     <div id="pageIndicator" aria-live="polite">Page 1 of 12</div>
+    <div class="dino-counter" id="dinoCounter" aria-live="polite">Dino toys: 0 / 12</div>
+    <div class="dino-toast" id="dinoToast" role="status" aria-live="polite"></div>
 
     <div id="progressBar">
         <div id="progressFill"></div>
@@ -267,6 +333,14 @@ body.book-open #pageIndicator { display: block; }
     <div class="win-overlay" id="winOverlay">
         <div class="win-text">You Win!</div>
         <button class="continue-btn" id="continueBtn">Continue</button>
+    </div>
+    <div class="dino-reward" id="dinoReward" role="dialog" aria-modal="true" aria-labelledby="dinoRewardTitle">
+        <div class="dino-reward-card">
+            <div class="guest" aria-hidden="true">🦖🎉</div>
+            <h2 id="dinoRewardTitle">Dino Quest Complete!</h2>
+            <p>Your 12 dinosaur toys are all found! MrBeast visits Johnny inside the story and brings a giant fireworks celebration.</p>
+            <button id="dinoRewardBtn">Play the reward fireworks →</button>
+        </div>
     </div>
 
     <script>
@@ -306,6 +380,19 @@ body.book-open #pageIndicator { display: block; }
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playFlipSound() {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(360, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(760, audioCtx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.14);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.14);
         }
 
         function playSuccess() {
@@ -424,10 +511,11 @@ body.book-open #pageIndicator { display: block; }
 
         // Persistent copies are ordinary files. No browser-storage API is used.
         function validateMission(value) {
-            const result = { version: 1, currentPage: 0, completedGames: [], rocket: {} };
+            const result = { version: 1, currentPage: 0, completedGames: [], dinoFound: [], rocket: {} };
             if (!value || value.version !== 1) return result;
             if (Number.isInteger(value.currentPage) && value.currentPage >= 0 && value.currentPage < 12) result.currentPage = value.currentPage;
             if (Array.isArray(value.completedGames)) result.completedGames = [...new Set(value.completedGames.filter(x => Number.isInteger(x) && x >= 0 && x < 12))];
+            if (Array.isArray(value.dinoFound)) result.dinoFound = [...new Set(value.dinoFound.filter(x => Number.isInteger(x) && x >= 0 && x < 12))];
             const rocket = value.rocket || {};
             if (typeof rocket.name === 'string') result.rocket.name = String(rocket.name).replace(/[<>&"']/g, '').trim().slice(0, 18) || 'Comet One';
             if (/^#[0-9a-f]{6}$/i.test(rocket.color || '')) result.rocket.color = rocket.color;
@@ -456,7 +544,7 @@ body.book-open #pageIndicator { display: block; }
             const image = new Image(); image.src = source; customRocketImage = image;
         }
         function missionSnapshot() {
-            return {version: 1, rocket: {...rocketDesign}, currentPage, completedGames: [...completedGames], muted: isMuted};
+            return {version: 1, rocket: {...rocketDesign}, currentPage, completedGames: [...completedGames], dinoFound: [...dinoFound], muted: isMuted};
         }
         function syncMissionSnapshot(changed = true) {
             document.getElementById('savedMission').textContent = JSON.stringify(missionSnapshot()).replace(/</g, '\\u003c');
@@ -509,7 +597,7 @@ body.book-open #pageIndicator { display: block; }
                 const mission = validateMission(raw);
                 if (currentGameCleanup) { currentGameCleanup(); currentGameCleanup = null; }
                 Object.assign(rocketDesign, {name: 'Comet One', color: '#ff8b4b', frame: true, paint: '', artwork: ''}, mission.rocket);
-                completedGames = new Set(mission.completedGames); currentPage = mission.currentPage; isMuted = mission.muted;
+                completedGames = new Set(mission.completedGames); dinoFound = new Set(mission.dinoFound); currentPage = mission.currentPage; isMuted = mission.muted;
                 document.getElementById('muteBtn').textContent = isMuted ? 'Sound off' : 'Sound on';
                 document.getElementById('muteBtn').setAttribute('aria-pressed', String(isMuted));
                 document.getElementById('muteBtn').setAttribute('aria-label', isMuted ? 'Unmute sound' : 'Mute sound');
@@ -553,7 +641,7 @@ body.book-open #pageIndicator { display: block; }
             </svg>`;
         }
 
-        function drawCustomRocket(ctx, x, y, scale = 1, rotation = 0) {
+        function drawCustomRocket(ctx, x, y, scale = 1, rotation = 0, engineOn = true) {
             if (customRocketImage && customRocketImage.complete && customRocketImage.naturalWidth) {
                 ctx.save(); ctx.translate(x, y); ctx.rotate(rotation); ctx.scale(scale, scale);
                 const fit = Math.min(84 / customRocketImage.naturalWidth, 48 / customRocketImage.naturalHeight);
@@ -561,7 +649,7 @@ body.book-open #pageIndicator { display: block; }
                 ctx.drawImage(customRocketImage, -width / 2, -height / 2, width, height); ctx.restore(); return;
             }
             ctx.save(); ctx.translate(x, y); ctx.rotate(rotation); ctx.scale(scale, scale);
-            ctx.fillStyle = '#fff1cb'; ctx.beginPath(); ctx.moveTo(-27, -6); ctx.lineTo(-42, 0); ctx.lineTo(-27, 6); ctx.closePath(); ctx.fill();
+            if (engineOn) { ctx.fillStyle = '#fff1cb'; ctx.beginPath(); ctx.moveTo(-27, -6); ctx.lineTo(-42, 0); ctx.lineTo(-27, 6); ctx.closePath(); ctx.fill(); }
             ctx.fillStyle = rocketDesign.color; ctx.strokeStyle = '#153f4e'; ctx.lineWidth = 2;
             const finReach = rocketDesign.fins === 'tiny' ? 8 : rocketDesign.fins === 'square' ? 13 : 17;
             ctx.beginPath(); ctx.moveTo(-17, -8); ctx.lineTo(-31, -finReach); ctx.lineTo(-28, -4); ctx.closePath(); ctx.fill(); ctx.stroke();
@@ -590,6 +678,7 @@ body.book-open #pageIndicator { display: block; }
         // Game state
         let currentPage = restoredMission.currentPage;
         let completedGames = new Set(restoredMission.completedGames);
+        let dinoFound = new Set(restoredMission.dinoFound);
         let currentGameCleanup = null;
         let navigationBusy = false;
         let bookOpened = false;
@@ -615,8 +704,14 @@ body.book-open #pageIndicator { display: block; }
                 const pageEl = document.createElement('div');
                 pageEl.className = 'page';
                 pageEl.id = `page-${index}`;
+                const dinoPositions = [
+                    'top: 11%; left: 8%;', 'top: 23%; right: 10%;', 'top: 8%; right: 24%;', 'top: 34%; left: 5%;',
+                    'top: 18%; left: 23%;', 'top: 31%; right: 6%;', 'top: 10%; left: 42%;', 'top: 28%; right: 19%;',
+                    'top: 14%; right: 8%;', 'top: 37%; left: 13%;', 'top: 20%; left: 7%;', 'top: 12%; right: 34%;'
+                ];
                 pageEl.innerHTML = `
                     <figure class="story-art"><img src="${page.image}" alt="${sceneDescriptions[index]}" class="page-image" decoding="async">${index >= 2 ? `<div class="reader-rocket">${rocketSVG(rocketDesign, true)}<span>YOUR ROCKET</span></div>` : ''}</figure>
+                    <button class="dino-egg${dinoFound.has(index) ? ' found' : ''}" data-dino-page="${index}" style="${dinoPositions[index]}" aria-label="${dinoFound.has(index) ? 'Dinosaur toy already found' : 'Find the hidden dinosaur toy on this page'}"${dinoFound.has(index) ? ' disabled' : ''}>🦖<span class="dino-label">Hidden dinosaur toy</span></button>
                     <p class="page-kicker">${pageKickers[index]}</p>
                     <h2 class="page-title">${page.title}</h2>
                     ${index >= 2 ? `<div class="rocket-badge">${rocketSVG(rocketDesign, true)}<span>MY ROCKET: ${safeRocketName(rocketDesign.name).toUpperCase()}</span></div>` : ''}
@@ -627,6 +722,40 @@ body.book-open #pageIndicator { display: block; }
                 book.appendChild(pageEl);
             });
         }
+
+        function updateDinoUI() {
+            const counter = document.getElementById('dinoCounter');
+            if (counter) counter.textContent = `Dino toys: ${dinoFound.size} / 12`;
+            document.querySelectorAll('.dino-egg').forEach(egg => {
+                const pageIndex = Number(egg.dataset.dinoPage);
+                const found = dinoFound.has(pageIndex);
+                egg.classList.toggle('found', found);
+                egg.disabled = found;
+                egg.setAttribute('aria-label', found ? 'Dinosaur toy already found' : 'Find the hidden dinosaur toy on this page');
+            });
+        }
+
+        function showDinoToast(message) {
+            const toast = document.getElementById('dinoToast');
+            toast.textContent = message; toast.classList.add('show');
+            clearTimeout(showDinoToast.timer);
+            showDinoToast.timer = setTimeout(() => toast.classList.remove('show'), 2600);
+        }
+
+        function revealDino(pageIndex, egg) {
+            if (dinoFound.has(pageIndex)) return;
+            dinoFound.add(pageIndex); egg.classList.add('found'); egg.disabled = true;
+            playSuccess(); updateDinoUI(); syncMissionSnapshot(true);
+            if (dinoFound.size === 12) {
+                showDinoToast('All 12 dinosaur toys found! Special reward unlocked!');
+                setTimeout(() => document.getElementById('dinoReward').classList.add('show'), 650);
+            } else showDinoToast(`Dinosaur toy found! ${dinoFound.size} of 12`);
+        }
+
+        document.addEventListener('click', e => {
+            const egg = e.target.closest && e.target.closest('.dino-egg');
+            if (egg) revealDino(Number(egg.dataset.dinoPage), egg);
+        });
 
         // Navigation
         function showPage(index) {
@@ -1170,6 +1299,18 @@ function initWordCatch(gameArea, instruction) {
             ctx.restore();
         }
 
+        function drawRocketGuide(ctx) {
+            ctx.save();
+            ctx.strokeStyle = '#4b8390'; ctx.lineWidth = 3; ctx.setLineDash([7, 8]); ctx.lineJoin = 'round';
+            ctx.beginPath(); ctx.moveTo(155, 150); ctx.quadraticCurveTo(150, 200, 153, 340);
+            ctx.lineTo(267, 340); ctx.quadraticCurveTo(270, 200, 265, 150);
+            ctx.quadraticCurveTo(245, 93, 210, 60); ctx.quadraticCurveTo(175, 93, 155, 150); ctx.closePath();
+            ctx.moveTo(154, 280); ctx.lineTo(110, 350); ctx.lineTo(154, 340);
+            ctx.moveTo(266, 280); ctx.lineTo(310, 350); ctx.lineTo(266, 340);
+            ctx.moveTo(182, 342); ctx.quadraticCurveTo(180, 382, 210, 401); ctx.quadraticCurveTo(240, 382, 238, 342);
+            ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+        }
+
         function buildRocketArtwork(paintCanvas) {
             const portrait = document.createElement('canvas'); portrait.width = 420; portrait.height = 440;
             const pc = portrait.getContext('2d');
@@ -1194,7 +1335,7 @@ function initWordCatch(gameArea, instruction) {
         }
 
         function initBlueprintDraw(gameArea, instruction) {
-            instruction.textContent = 'This is YOUR rocket. Paint the frame or start a blank drawing. Your real picture flies through the rest of the book!';
+            instruction.textContent = 'Draw your own moving rocket. Follow the dotted guide—or erase it and invent your own design!';
             gameArea.innerHTML = `<div class="drawing-workshop">
                 <div class="drawing-paper"><canvas id="rocketDrawing" width="420" height="440" aria-label="Draw your own rocket with a mouse, pen, or finger"></canvas><span class="paper-note">THE NEXT GREAT ROCKET DESIGNER: YOU</span></div>
                 <div class="drawing-tools">
@@ -1213,16 +1354,16 @@ function initWordCatch(gameArea, instruction) {
             const ink = paint.getContext('2d');
             const name = gameArea.querySelector('#rocketName'), frame = gameArea.querySelector('#showFrame');
             const preview = gameArea.querySelector('#drawingPreview'), undoBtn = gameArea.querySelector('#undoPaint');
-            name.value = rocketDesign.name; frame.checked = rocketDesign.frame !== false;
+            name.value = rocketDesign.name; frame.checked = false;
             const colors = [['#ff8b4b','Orange'],['#ef5c6c','Coral'],['#f4bf3f','Yellow'],['#39a77f','Green'],['#397fc4','Blue'],['#8d6cc7','Purple'],['#ff6b9d','Pink'],['#183a4d','Ink'],['#ffffff','White']];
             let color = rocketDesign.color || '#ff8b4b', erasing = false, activePointer = null, last = null;
-            let destroyed = false, ready = !rocketDesign.paint, edited = false;
+            let destroyed = false, ready = true, edited = false, guideVisible = true;
             frame.disabled = !ready;
             const history = [];
             const paintButton = gameArea.querySelector('#paintTool'), eraserButton = gameArea.querySelector('#eraserTool');
             function render() {
                 ctx.clearRect(0, 0, 420, 440);
-                if (frame.checked) drawRocketFrame(ctx);
+                if (guideVisible) { if (frame.checked) drawRocketFrame(ctx); else drawRocketGuide(ctx); }
                 ctx.drawImage(paint, 0, 0);
             }
             function commit(markChanged = true) {
@@ -1269,6 +1410,8 @@ function initWordCatch(gameArea, instruction) {
             canvas.addEventListener('pointerdown', e => {
                 if (destroyed || !ready || activePointer !== null || e.button > 0) return;
                 e.preventDefault(); remember(); activePointer = e.pointerId; canvas.setPointerCapture(e.pointerId);
+                // Remove the solid starter frame, but keep the dotted blueprint guide visible behind the drawing.
+                if (guideVisible) { frame.checked = false; frame.disabled = true; render(); }
                 last = point(e); stroke(last, last);
             });
             canvas.addEventListener('pointermove', e => {
@@ -1286,8 +1429,8 @@ function initWordCatch(gameArea, instruction) {
             paintButton.addEventListener('click', () => setTool(false)); eraserButton.addEventListener('click', () => setTool(true));
             undoBtn.disabled = true;
             undoBtn.addEventListener('click', () => { if (!ready || !history.length) return; ink.putImageData(history.pop(), 0, 0); undoBtn.disabled = !history.length; render(); edited = true; commit(); });
-            gameArea.querySelector('#clearPaint').addEventListener('click', () => { if (!ready) return; remember(); ink.clearRect(0, 0, 420, 440); render(); edited = true; commit(); });
-            frame.addEventListener('change', () => { render(); edited = true; commit(); });
+            gameArea.querySelector('#clearPaint').addEventListener('click', () => { if (!ready) return; remember(); ink.clearRect(0, 0, 420, 440); guideVisible = true; frame.checked = false; frame.disabled = false; render(); edited = true; commit(); });
+            frame.addEventListener('change', () => { guideVisible = true; render(); edited = true; commit(); });
             name.addEventListener('input', () => commit());
             gameArea.querySelector('#finishRocket').addEventListener('click', () => {
                 if (!ready) return; commit();
@@ -1313,37 +1456,74 @@ function initWordCatch(gameArea, instruction) {
 
         // GAME 3: Rocket Assembly
         function initRocketAssembly(gameArea, instruction) {
-            instruction.textContent = 'Tap a part, then tap its matching slot. On a computer you can also drag it. Build your very own rocket!';
+            instruction.textContent = 'Build the rocket in the workshop. Tap a real part to snap it onto the matching place, or drag it there.';
             const showcase = document.createElement('div');
-            showcase.className = 'rocket-showcase';
-            showcase.innerHTML = rocketSVG(rocketDesign);
+            showcase.className = 'rocket-showcase assembly-workshop';
+            const workshops = [
+                ['GARAGE BAY 01', 'radial-gradient(circle at 18% 20%, #f6c56d 0 4%, transparent 5%), linear-gradient(145deg, #234b58, #102e42)'],
+                ['WORKSHOP BAY 04', 'radial-gradient(circle at 78% 22%, #a7d3ca 0 3%, transparent 4%), linear-gradient(145deg, #4c5268, #1d334b)'],
+                ['BUILD SHED 07', 'radial-gradient(circle at 20% 75%, #ff9b56 0 3%, transparent 4%), linear-gradient(145deg, #345d59, #163b4c)']
+            ];
+            const workshop = workshops[Math.floor(Math.random() * workshops.length)];
+            showcase.style.background = workshop[1];
+            showcase.innerHTML = `<div class="assembly-label">${workshop[0]}  /  ROCKET BUILD</div><div class="assembly-tools">WRENCH&nbsp;&nbsp; • &nbsp;&nbsp;BOLTS&nbsp;&nbsp; • &nbsp;&nbsp;BLUEPRINTS</div><div class="assembly-preview" id="assemblyPreview"></div><div class="assembly-bench"></div>`;
             gameArea.appendChild(showcase);
+            const assemblyParts = {};
+
+            function assemblySVG() {
+                const color = /^#[0-9a-f]{6}$/i.test(rocketDesign.color) ? rocketDesign.color : '#ff8b4b';
+                const has = name => assemblyParts[name] ? '' : 'opacity=".14" stroke-dasharray="5 7"';
+                return `<svg viewBox="0 0 360 170" role="img" aria-label="Rocket assembly preview">
+                    <defs><linearGradient id="assemblyBody" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#c9d9d6"/></linearGradient><linearGradient id="assemblyMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe2a2"/><stop offset="1" stop-color="#e47b45"/></linearGradient></defs>
+                    <ellipse cx="180" cy="143" rx="132" ry="10" fill="#061f2a88"/>
+                    <g stroke="#143e4d" stroke-width="3" stroke-linejoin="round">
+                        <path d="M78 48Q142 22 250 38Q280 46 300 85Q280 124 250 132Q142 148 78 122Z" fill="url(#assemblyBody)" ${has('body')}/>
+                        <path d="M115 48L82 18L78 56L112 70Z M115 122L82 151L78 114L112 100Z" fill="${color}" ${has('leftFin')}/>
+                        <path d="M245 40L277 19L279 55L250 69Z M245 130L277 151L279 115L250 101Z" fill="${color}" ${has('rightFin')}/>
+                        <path d="M247 38Q298 46 326 85Q298 124 247 132Q278 85 247 38Z" fill="${color}" ${has('nose')}/>
+                        <ellipse cx="174" cy="85" rx="21" ry="22" fill="#7fd4e2" stroke="#17465a" ${has('window')}/>
+                        <path d="M75 70Q45 70 28 85Q45 100 75 100L92 85Z" fill="url(#assemblyMetal)" ${has('engine')}/>
+                        <path d="M45 78L18 85L45 92Z" fill="#fff1cb" ${has('engine')}/>
+                    </g>
+                    <text x="174" y="116" text-anchor="middle" font-family="Trebuchet MS" font-size="9" font-weight="900" fill="#2c5962">${safeRocketName(rocketDesign.name).toUpperCase()}</text>
+                </svg>`;
+            }
+            function renderAssembly() { showcase.querySelector('#assemblyPreview').innerHTML = assemblySVG(); }
+            renderAssembly();
             
             const rocketContainer = document.createElement('div');
+            rocketContainer.className = 'assembly-slots';
             rocketContainer.style.textAlign = 'center';
             rocketContainer.style.marginBottom = '20px';
             rocketContainer.innerHTML = `
-                <button class="drop-zone" id="zone-nose">Nose Cone</button>
-                <button class="drop-zone" id="zone-window">Window</button>
-                <button class="drop-zone" id="zone-body">Body</button>
+                <div class="assembly-slot-title">ATTACH THE HIGHLIGHTED PART</div>
+                <button class="drop-zone" id="zone-nose"><span class="slot-icon">◢</span><span>Nose cone</span></button>
+                <button class="drop-zone" id="zone-window"><span class="slot-icon">◉</span><span>Window</span></button>
+                <button class="drop-zone" id="zone-body"><span class="slot-icon">▰</span><span>Rocket body</span></button>
                 <div style="display: flex; justify-content: center; gap: 20px;">
-                    <button class="drop-zone" id="zone-leftFin">Left Fin</button>
-                    <button class="drop-zone" id="zone-rightFin">Right Fin</button>
+                    <button class="drop-zone" id="zone-leftFin"><span class="slot-icon">◀</span><span>Left fin</span></button>
+                    <button class="drop-zone" id="zone-rightFin"><span class="slot-icon">▶</span><span>Right fin</span></button>
                 </div>
-                <button class="drop-zone" id="zone-engine">Engine</button>
+                <button class="drop-zone" id="zone-engine"><span class="slot-icon">✦</span><span>Engine</span></button>
             `;
             gameArea.appendChild(rocketContainer);
             
             const partsContainer = document.createElement('div');
-            partsContainer.style.textAlign = 'center';
-            partsContainer.innerHTML = `
-                <button class="rocket-part" draggable="true" data-part="nose">Nose Cone</button>
-                <button class="rocket-part" draggable="true" data-part="window">Window</button>
-                <button class="rocket-part" draggable="true" data-part="body">Body</button>
-                <button class="rocket-part" draggable="true" data-part="leftFin">Left Fin</button>
-                <button class="rocket-part" draggable="true" data-part="rightFin">Right Fin</button>
-                <button class="rocket-part" draggable="true" data-part="engine">Engine</button>
-            `;
+            partsContainer.className = 'assembly-parts-table';
+            function partPiece(part) {
+                const color = /^#[0-9a-f]{6}$/i.test(rocketDesign.color) ? rocketDesign.color : '#ff8b4b';
+                const art = {
+                    nose: `<svg viewBox="0 0 92 58"><path d="M10 29Q35 7 80 29Q35 51 10 29Z" fill="${color}" stroke="#173d50" stroke-width="3"/><path d="M22 24Q42 13 63 23" fill="none" stroke="#ffffff88" stroke-width="3"/></svg>`,
+                    window: `<svg viewBox="0 0 92 58"><circle cx="46" cy="29" r="22" fill="#7fd4e2" stroke="#17465a" stroke-width="4"/><path d="M35 22L52 17" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="46" cy="29" r="13" fill="#356c86" opacity=".28"/></svg>`,
+                    body: `<svg viewBox="0 0 92 58"><path d="M8 17Q42 7 84 29Q42 51 8 41Z" fill="url(#partBody)" stroke="#173d50" stroke-width="3"/><defs><linearGradient id="partBody" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#c9d9d6"/></linearGradient></defs></svg>`,
+                    leftFin: `<svg viewBox="0 0 92 58"><path d="M72 29L20 7L29 30L20 51Z" fill="${color}" stroke="#173d50" stroke-width="3"/></svg>`,
+                    rightFin: `<svg viewBox="0 0 92 58"><path d="M20 29L72 7L63 30L72 51Z" fill="${color}" stroke="#173d50" stroke-width="3"/></svg>`,
+                    engine: `<svg viewBox="0 0 92 58"><path d="M76 18Q45 18 19 29Q45 40 76 40Z" fill="#e58a4f" stroke="#173d50" stroke-width="3"/><path d="M32 24L8 29L32 34Z" fill="#fff1cb" stroke="#173d50" stroke-width="2"/><circle cx="67" cy="29" r="6" fill="#8b5c4c"/></svg>`
+                };
+                return art[part];
+            }
+            const partNames = [['nose','Nose cone'],['window','Window'],['body','Rocket body'],['leftFin','Left fin'],['rightFin','Right fin'],['engine','Engine']];
+            partsContainer.innerHTML = partNames.map(([part, label]) => `<button class="rocket-part physical-part" draggable="true" data-part="${part}" aria-label="${label}">${partPiece(part)}<span>${label}</span></button>`).join('');
             gameArea.appendChild(partsContainer);
             
             const status = document.createElement('div');
@@ -1365,8 +1545,20 @@ function initWordCatch(gameArea, instruction) {
                     gameArea.querySelectorAll('.rocket-part').forEach(p => p.style.outline = '');
                     part.style.outline = '3px solid #ff9748';
                     selectedPart = part.dataset.part;
-                    status.textContent = 'Now tap the matching slot for ' + part.textContent + '.';
+                    status.textContent = 'Selected ' + part.getAttribute('aria-label') + '. Tap its glowing slot, or tap the part again to attach it.';
                     playClick();
+
+                    // A simple tap is the primary interaction: physical parts snap
+                    // straight into their matching rocket position. The slot remains
+                    // available for drag/drop and for children who prefer a second step.
+                    const matchingZone = gameArea.querySelector('#zone-' + selectedPart);
+                    if (matchingZone && !matchingZone.classList.contains('filled')) {
+                        gameArea.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('target-ready'));
+                        matchingZone.classList.add('target-ready');
+                        window.setTimeout(() => {
+                            if (selectedPart === part.dataset.part && !matchingZone.classList.contains('filled')) placePart(selectedPart, matchingZone);
+                        }, 180);
+                    }
                 });
             });
             
@@ -1394,10 +1586,13 @@ function initWordCatch(gameArea, instruction) {
                 if (partName === zoneName && !zone.classList.contains('filled')) {
                     zone.classList.add('filled');
                     zone.disabled = true;
-                    zone.textContent = zoneName.charAt(0).toUpperCase() + zoneName.slice(1) + ' ✓';
+                    zone.innerHTML = '<span class="slot-icon">✓</span><span>' + zoneName.charAt(0).toUpperCase() + zoneName.slice(1) + ' attached</span>';
+                    zone.classList.remove('target-ready');
                     const partEl = gameArea.querySelector(`[data-part="${partName}"]`);
                     partEl.style.display = 'none';
                     partEl.style.outline = '';
+                    assemblyParts[partName] = true;
+                    renderAssembly();
                     placed++;
                     status.textContent = `${placed} of 6 parts placed`;
                     selectedPart = null;
@@ -1453,7 +1648,7 @@ function initWordCatch(gameArea, instruction) {
                     card.classList.add('flipped');
                     card.textContent = equipmentName; card.setAttribute('aria-label', equipmentName);
                     flipped.push(card);
-                    playClick();
+                    playFlipSound();
                     
                     if (flipped.length === 2) {
                         moves++;
@@ -1486,6 +1681,7 @@ function initWordCatch(gameArea, instruction) {
 function initCountdownReaction(gameArea, instruction) {
     const game = jbmUpgradeSession(gameArea, instruction, initCountdownReaction,
         'Hold the launch button through 5, 4, 3, 2, 1. Release when it turns mint at 0! Mouse, touch, or hold Space / Enter on the button. One launch wins; 3 tries.');
+    game.stage.style.height = '520px';
     const countdownSeconds = 5;
     const releaseWindow = 0.85;
     const btn = game.button('Hold to launch');
@@ -1503,17 +1699,175 @@ function initCountdownReaction(gameArea, instruction) {
     let hint = 'Hold. Count. Release at zero.';
     let go = false;
     let shownCount = null;
+    let launchStartedAt = 0;
+    let launchComplete = false;
     game.say('Ready for launch. Hold the button, or focus it and hold Space or Enter.');
 
     function draw(now) {
-        jbmUpgradeBackdrop(game, 'LAUNCH PAD / TRY ' + Math.min(3, attempts + 1) + ' OF 3', 0);
         const ctx = game.ctx;
-        const radius = Math.min(88, game.w / 2 - 15);
-        const centerY = 133;
+        const width = game.w;
+        const height = game.h;
+        const radius = Math.min(46, width / 2 - 18);
+        const centerY = 64;
+        const padY = height - 74;
+        const launchAge = launchComplete ? Math.max(0, (now - launchStartedAt) / 1000) : 0;
+        const lift = launchComplete ? Math.min(height * 0.62, launchAge * height * 0.42) : 0;
+        const cameraShift = launchComplete ? Math.max(0, lift - 28) : 0;
+        const worldPadY = padY + cameraShift;
+        const rocketY = worldPadY - 86 - lift;
+        const spaceProgress = Math.min(1, cameraShift / 170);
+
+        // The camera begins in Johnny's backyard, then tilts up into deep space.
+        const sky = ctx.createLinearGradient(0, 0, 0, height);
+        sky.addColorStop(0, spaceProgress > 0.4 ? '#071c3b' : '#2c7182');
+        sky.addColorStop(0.64, spaceProgress > 0.45 ? '#12335d' : '#f09b68');
+        sky.addColorStop(1, spaceProgress > 0.55 ? '#09213d' : '#294d51');
+        ctx.fillStyle = sky; ctx.fillRect(0, 0, width, height);
+        ctx.globalAlpha = spaceProgress;
+        for (let i = 0; i < 22; i++) {
+            const sx = ((i * 79 + 17) % 997) / 997 * width;
+            const sy = ((i * 47 + 31) % 260) + 34;
+            ctx.fillStyle = i % 3 ? '#b9f2dc' : '#fff2d9';
+            ctx.beginPath(); ctx.arc(sx, sy, i % 3 ? 1 : 1.7, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        const worldY = value => value + cameraShift;
+        const groundY = worldY(padY - 22);
+
+        // Distant airplanes cross the sky behind the helicopter with soft contrails.
+        if (spaceProgress < 0.72) {
+            ctx.globalAlpha = Math.max(0, (1 - spaceProgress * 1.35) * 0.72);
+            for (let planeIndex = 0; planeIndex < 3; planeIndex++) {
+                const planeTime = now / (3000 + planeIndex * 850) + planeIndex * 0.37;
+                const px = ((planeTime * width * 0.72) % (width + 90)) - 45;
+                const py = worldY(148 + planeIndex * 34 + Math.sin(planeTime * 2) * 8);
+                const planeScale = 0.48 + planeIndex * 0.13;
+                ctx.save(); ctx.translate(px, py); ctx.scale(planeScale, planeScale);
+                ctx.fillStyle = '#f4f7ee'; ctx.strokeStyle = '#55727a'; ctx.lineWidth = 1.2; ctx.lineJoin = 'round';
+                ctx.beginPath(); ctx.moveTo(-23, 0); ctx.lineTo(24, 0); ctx.quadraticCurveTo(34, 1, 40, 5); ctx.quadraticCurveTo(32, 9, 24, 9); ctx.lineTo(-23, 7); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#d8e9e4'; ctx.beginPath(); ctx.moveTo(-1, 4); ctx.lineTo(-23, -12); ctx.lineTo(-15, 5); ctx.lineTo(-23, 15); ctx.lineTo(-15, 7); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(25, 2); ctx.lineTo(36, -8); ctx.lineTo(34, 5); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#477788'; for (let windowIndex = 0; windowIndex < 6; windowIndex++) { ctx.beginPath(); ctx.arc(-10 + windowIndex * 6, 3, 1.5, 0, Math.PI * 2); ctx.fill(); }
+                ctx.fillStyle = '#455b63'; ctx.beginPath(); ctx.ellipse(0, 9, 5, 2, 0, 0, Math.PI * 2); ctx.ellipse(15, 9, 5, 2, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // Hidden-in-plain-sight Easter egg: Johnny's dad cheers from a little helicopter.
+        if (spaceProgress < 0.72) {
+            ctx.globalAlpha = Math.max(0, 1 - spaceProgress * 1.35);
+            const hx = ((now / 2600 * (width + 90)) % (width + 90)) - 45;
+            const hy = worldY(105 + Math.sin(now / 800) * 4);
+            ctx.save(); ctx.translate(hx, hy); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            // Main rotor and mast.
+            ctx.strokeStyle = '#173d50'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(0, -12); ctx.lineTo(0, -24); ctx.moveTo(-39, -25 + Math.sin(now / 95) * 2); ctx.lineTo(39, -25 - Math.sin(now / 95) * 2); ctx.stroke();
+            const helicopterBody = ctx.createLinearGradient(-20, -15, 22, 15);
+            helicopterBody.addColorStop(0, '#f2a06f'); helicopterBody.addColorStop(0.5, '#d96f58'); helicopterBody.addColorStop(1, '#914b4a');
+            ctx.fillStyle = helicopterBody; ctx.strokeStyle = '#173d50'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.roundRect(-29, -13, 58, 25, 10); ctx.fill(); ctx.stroke();
+            // Tail boom, tail rotor, and landing skids.
+            ctx.beginPath(); ctx.moveTo(25, 0); ctx.lineTo(57, -8); ctx.lineTo(65, -4); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(61, -13); ctx.lineTo(61, 7); ctx.moveTo(55, -3); ctx.lineTo(67, -3); ctx.stroke();
+            ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-18, 11); ctx.lineTo(-23, 22); ctx.moveTo(17, 11); ctx.lineTo(22, 22); ctx.moveTo(-29, 22); ctx.lineTo(29, 22); ctx.stroke();
+            // Large cockpit window with Johnny's dad's face clearly visible.
+            const glass = ctx.createLinearGradient(0, -12, 0, 8);
+            glass.addColorStop(0, '#d9fbff'); glass.addColorStop(0.45, '#78c4d5'); glass.addColorStop(1, '#356c86');
+            ctx.fillStyle = glass; ctx.beginPath(); ctx.ellipse(8, -3, 16, 10, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            // Johnny's dad has a clear, smooth face inside the cockpit.
+            const dadFace = ctx.createRadialGradient(4, -7, 1, 8, -3, 9);
+            dadFace.addColorStop(0, '#ffe5b0'); dadFace.addColorStop(1, '#b96f55');
+            ctx.fillStyle = dadFace; ctx.beginPath(); ctx.arc(7, -4, 7, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#6f443b'; ctx.beginPath(); ctx.arc(7, -8, 7, Math.PI, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#24313c'; ctx.beginPath(); ctx.arc(4, -4, 1.2, 0, Math.PI * 2); ctx.arc(10, -4, 1.2, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#9c493f'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(7, -1, 3, 0, Math.PI); ctx.stroke();
+            ctx.strokeStyle = '#ffffff99'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-3, -10); ctx.lineTo(5, -12); ctx.stroke();
+            // Dad waves from the window.
+            ctx.strokeStyle = '#f2b779'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-6, 1); ctx.lineTo(-15, -12); ctx.lineTo(-19, -18); ctx.stroke();
+            ctx.fillStyle = '#f2b779'; ctx.beginPath(); ctx.arc(-19, -19, 3, 0, Math.PI * 2); ctx.fill();
+            ctx.restore();
+            ctx.globalAlpha = 1;
+        }
+
+        // Backyard details stay behind the rocket and slide down as the camera follows it.
+        if (spaceProgress < 0.9) {
+            ctx.globalAlpha = 1 - spaceProgress;
+            ctx.fillStyle = '#183f46';
+            ctx.beginPath(); ctx.moveTo(0, worldY(280)); ctx.quadraticCurveTo(width * .25, worldY(235), width * .5, worldY(278)); ctx.quadraticCurveTo(width * .75, worldY(225), width, worldY(270)); ctx.lineTo(width, height); ctx.lineTo(0, height); ctx.fill();
+            ctx.fillStyle = '#315d55'; ctx.fillRect(0, groundY, width, height - groundY);
+            ctx.fillStyle = '#f5a16e'; ctx.fillRect(width * .05, worldY(250), width * .22, 82);
+            ctx.fillStyle = '#8b4b4b'; ctx.beginPath(); ctx.moveTo(width * .02, worldY(250)); ctx.lineTo(width * .16, worldY(202)); ctx.lineTo(width * .3, worldY(250)); ctx.fill();
+            ctx.fillStyle = '#f6d28d'; ctx.fillRect(width * .13, worldY(285), 24, 47);
+            ctx.fillStyle = '#8ed5df'; ctx.fillRect(width * .08, worldY(269), 25, 22); ctx.fillRect(width * .205, worldY(269), 25, 22);
+            // A whole neighborhood crowds in to cheer from a safe distance.
+            const people = [0.07, 0.16, 0.25, 0.34, 0.43, 0.57, 0.66, 0.75, 0.84, 0.93].map(value => width * value);
+            people.forEach((px, index) => {
+                const bob = Math.sin(now / 260 + index * 0.9) * 1.5;
+                const py = worldY(padY - 41 + bob);
+                const scale = index % 4 === 0 ? 0.78 : index % 4 === 1 ? 1.08 : index % 4 === 2 ? 0.94 : 1;
+                const skin = ['#ffcf8c', '#f2b779', '#ffd9a1', '#e5a26d', '#efc08d'][index % 5];
+                const hair = ['#2b4354', '#6f443b', '#3d3037', '#76503d', '#b85a46'][index % 5];
+                const shirt = ['#ff806d', '#6bc1b0', '#f3c55b', '#8ca9e8', '#d27ab0'][index % 5];
+                ctx.save(); ctx.translate(px, py); ctx.scale(scale, scale);
+                ctx.shadowColor = '#061f2a66'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 4;
+                // Natural proportions: legs, shoes, neck, shoulders, and a jacket-shaped torso.
+                ctx.strokeStyle = '#243b4a'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+                ctx.beginPath(); ctx.moveTo(-6, 15); ctx.lineTo(-9, 42); ctx.moveTo(6, 15); ctx.lineTo(10, 42); ctx.stroke();
+                ctx.fillStyle = '#263d52';
+                ctx.beginPath(); ctx.ellipse(-12, 43, 8, 3.5, -.12, 0, Math.PI * 2); ctx.ellipse(13, 43, 8, 3.5, .12, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = skin; ctx.fillRect(-3.5, -27, 7, 11);
+                const jacket = ctx.createLinearGradient(-15, -20, 15, 18);
+                jacket.addColorStop(0, '#ffffff33'); jacket.addColorStop(0.25, shirt); jacket.addColorStop(1, '#183f4666');
+                ctx.fillStyle = jacket;
+                ctx.beginPath(); ctx.moveTo(-12, -17); ctx.quadraticCurveTo(0, -23, 12, -17); ctx.lineTo(16, 15); ctx.quadraticCurveTo(0, 22, -16, 15); ctx.closePath(); ctx.fill();
+                // People are mostly seen from behind at this distance, which keeps the crowd lifelike.
+                const head = ctx.createRadialGradient(-3, -42, 1, 2, -35, 12);
+                head.addColorStop(0, '#fff0c5'); head.addColorStop(0.35, skin); head.addColorStop(1, '#9b5b4e');
+                ctx.fillStyle = head; ctx.beginPath(); ctx.arc(0, -37, 11, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = hair; ctx.beginPath(); ctx.arc(0, -40, 11, Math.PI, Math.PI * 2); ctx.fill();
+                // Bent cheering arms, with elbows and hands instead of long stick lines.
+                ctx.strokeStyle = skin; ctx.lineWidth = 5; ctx.lineCap = 'round';
+                const wave = Math.sin(now / 210 + index) * 5;
+                ctx.beginPath(); ctx.moveTo(-11, -8); ctx.lineTo(-19, -25); ctx.lineTo(-25 + wave, -39 - (index % 2) * 7); ctx.moveTo(11, -8); ctx.lineTo(19, -24); ctx.lineTo(25 - wave, -36); ctx.stroke();
+                ctx.fillStyle = skin; ctx.beginPath(); ctx.arc(-25 + wave, -39 - (index % 2) * 7, 3.5, 0, Math.PI * 2); ctx.arc(25 - wave, -36, 3.5, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            });
+            ctx.globalAlpha = 1;
+        }
+
+        ctx.fillStyle = '#fff2d9'; ctx.font = '900 12px "Trebuchet MS", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('LAUNCH PAD / TRY ' + Math.min(3, attempts + 1) + ' OF 3', width / 2, 23, Math.max(1, width - 20));
+
+        // Warm launch glow and a deeper ground band make the tall stage feel like a real pad.
+        const glow = ctx.createRadialGradient(width / 2, worldPadY - 30, 8, width / 2, worldPadY - 30, 180);
+        glow.addColorStop(0, '#f39b4d38'); glow.addColorStop(1, '#092f3800');
+        ctx.fillStyle = glow; ctx.fillRect(0, 170, width, height - 170);
+        ctx.fillStyle = '#061f2a'; ctx.fillRect(0, worldPadY + 9, width, height - worldPadY - 9);
+
+        // Launch tower, guide arms, and the wide launch platform.
+        ctx.strokeStyle = '#526c73'; ctx.lineWidth = 3; ctx.globalAlpha = 0.78;
+        ctx.shadowColor = '#061f2a88'; ctx.shadowBlur = 3;
+        ctx.beginPath(); ctx.moveTo(width * 0.18, worldPadY); ctx.lineTo(width * 0.28, worldY(190)); ctx.moveTo(width * 0.82, worldPadY); ctx.lineTo(width * 0.72, worldY(190)); ctx.stroke();
+        ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+        jbmUpgradeRoundBox(ctx, width * 0.17, worldPadY - 8, width * 0.66, 14, 6, '#b9f2dc');
+
+        // Animated steam rolls out from beneath the rocket while the button is held.
+        if (holding || go || launchComplete) {
+            const steamTime = now / 210;
+            ctx.fillStyle = '#eefcf4cc';
+            for (let i = 0; i < 11; i++) {
+                const drift = Math.sin(steamTime + i * 1.7) * 15;
+                const x = width / 2 + ((i % 6) - 2.5) * 22 + drift;
+                const y = worldPadY - 3 - ((steamTime * 0.55 + i * 19) % 54);
+                ctx.beginPath(); ctx.arc(x, y, 10 + (i % 3) * 4, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
         ctx.strokeStyle = go ? '#b9f2dc' : '#46787b';
         ctx.lineWidth = go ? 12 : 7;
         ctx.beginPath();
-        ctx.arc(game.w / 2, centerY, radius, 0, Math.PI * 2);
+        ctx.arc(width / 2, centerY, radius, 0, Math.PI * 2);
         ctx.stroke();
         if (holding) {
             const age = Math.max(0, (now - startedAt) / 1000);
@@ -1522,18 +1876,25 @@ function initCountdownReaction(gameArea, instruction) {
             ctx.lineWidth = 7;
             ctx.lineCap = 'round';
             ctx.beginPath();
-            ctx.arc(game.w / 2, centerY, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+            ctx.arc(width / 2, centerY, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
             ctx.stroke();
         }
         ctx.fillStyle = go ? '#b9f2dc' : '#fff2d9';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.font = '900 ' + (display.length > 2 ? 31 : 76) + 'px "Trebuchet MS", sans-serif';
-        ctx.fillText(display, game.w / 2, centerY, game.w - 34);
+        ctx.font = '900 ' + (display.length > 2 ? 23 : 54) + 'px "Trebuchet MS", sans-serif';
+        ctx.fillText(display, width / 2, centerY, width - 34);
         ctx.fillStyle = '#fff2d9';
         ctx.font = '800 15px "Trebuchet MS", sans-serif';
-        ctx.fillText(hint, game.w / 2, 245, game.w - 24);
-        drawCustomRocket(ctx, game.w / 2, 284, 0.82, 0);
+        ctx.fillText(hint, width / 2, 126, width - 24);
+
+        // The custom rocket sits upright on the pad and points skyward at liftoff.
+        drawCustomRocket(ctx, width / 2, rocketY, 1.22, -Math.PI / 2);
+        if (holding || go || launchComplete) {
+            ctx.save(); ctx.translate(width / 2, rocketY + 44); ctx.globalAlpha = launchComplete ? Math.max(0, 1 - launchAge / 1.8) : 1;
+            ctx.fillStyle = '#ffac69'; ctx.beginPath(); ctx.moveTo(-17, 0); ctx.quadraticCurveTo(0, 46 + Math.sin(now / 55) * 8, 17, 0); ctx.closePath(); ctx.fill();
+            ctx.fillStyle = '#fff2d9'; ctx.beginPath(); ctx.moveTo(-7, 2); ctx.quadraticCurveTo(0, 29, 7, 2); ctx.closePath(); ctx.fill(); ctx.restore();
+        }
     }
 
     function resetInput() {
@@ -1590,8 +1951,16 @@ function initCountdownReaction(gameArea, instruction) {
         if (success) {
             display = 'LIFTOFF';
             hint = 'Perfect timing, astronaut!';
-            draw(performance.now());
-            game.finish('Liftoff! You released ' + Math.round((age - countdownSeconds) * 1000) + ' milliseconds after zero. Mission complete!', true);
+            launchComplete = true;
+            launchStartedAt = performance.now();
+            game.say('Liftoff! The rocket is blasting off from the launch pad!');
+            game.loop(function (dt, now) {
+                draw(now);
+                if (now - launchStartedAt >= 1500) {
+                    game.stopLoop();
+                    game.finish('Liftoff! You released ' + Math.round((age - countdownSeconds) * 1000) + ' milliseconds after zero. Mission complete!', true);
+                }
+            });
             return;
         }
         playError();
@@ -1653,50 +2022,79 @@ function initCountdownReaction(gameArea, instruction) {
         // GAME 6: Asteroid Dodge
 function initAsteroidDodge(gameArea, instruction) {
     const game = jbmUpgradeSession(gameArea, instruction, initAsteroidDodge,
-        'Pilot your rocket for 30 seconds! Hold arrow keys or WASD to steer. Move the mouse, or drag with a finger. Three shields and a short safety bubble after each bump.');
+        'Pilot your rocket for 30 seconds! Use Up and Down or W/S to move vertically, Left and Right or A/D to steer. One life only.');
     const ship = { x: 0.5, y: 0.82 };
     const keys = new Set();
     let pointerId = null;
     let pointerTarget = null;
     let asteroids = [];
+    let exhaust = [];
+    let crashParticles = [];
     let elapsed = 0;
     let spawnClock = 0;
-    let shields = 3;
-    let safeTime = 0;
+    let crashAge = 0;
+    let crashed = false;
+    let verticalThrust = 0;
+    let horizontalThrust = 0;
+    let shipTilt = 0;
     let notice = '';
     let noticeUntil = 0;
     let started = false;
     const start = game.button('Start space flight', begin);
-    game.say('Ready to fly. Three shields. Survive 30 seconds to reach safe space.');
+    game.say('Ready to fly. One life. Use Up/Down or W/S to move vertically.');
 
     function draw() {
         jbmUpgradeBackdrop(game, 'DEEP SPACE / ' + Math.max(0, Math.ceil(30 - elapsed)) + ' SECONDS', elapsed);
         const ctx = game.ctx;
+        exhaust.forEach(function (p) {
+            ctx.globalAlpha = Math.max(0, p.life);
+            ctx.fillStyle = p.color;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2); ctx.fill();
+        });
+        ctx.globalAlpha = 1;
         asteroids.forEach(function (rock) {
             const x = rock.x * game.w;
-            ctx.fillStyle = '#dca98f';
-            ctx.strokeStyle = '#fff2d9';
-            ctx.lineWidth = 2;
+            ctx.save(); ctx.translate(x, rock.y); ctx.rotate(rock.rotation);
+            ctx.fillStyle = '#b17e72'; ctx.strokeStyle = '#f1c1a2'; ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(x, rock.y, rock.r, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.stroke();
+            for (let n = 0; n < rock.points.length; n++) {
+                const angle = n / rock.points.length * Math.PI * 2;
+                const radius = rock.r * rock.points[n];
+                if (n === 0) ctx.moveTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                else ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+            }
+            ctx.closePath(); ctx.fill(); ctx.stroke();
             ctx.fillStyle = '#a66e61';
             ctx.beginPath();
-            ctx.arc(x - rock.r * 0.3, rock.y - rock.r * 0.2, rock.r * 0.27, 0, Math.PI * 2);
-            ctx.arc(x + rock.r * 0.32, rock.y + rock.r * 0.25, rock.r * 0.18, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.arc(-rock.r * 0.3, -rock.r * 0.2, rock.r * 0.27, 0, Math.PI * 2);
+            ctx.arc(rock.r * 0.32, rock.r * 0.25, rock.r * 0.18, 0, Math.PI * 2); ctx.fill(); ctx.restore();
         });
         const x = ship.x * game.w;
         const y = ship.y * game.h;
-        ctx.fillStyle = safeTime > 0 ? '#b9f2dc55' : '#b9f2dc1a';
-        ctx.strokeStyle = safeTime > 0 ? '#fff2d9' : '#b9f2dc';
-        ctx.lineWidth = safeTime > 0 ? 3 : 1.5;
-        ctx.beginPath();
-        ctx.arc(x, y, safeTime > 0 ? 33 : 24, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-        drawCustomRocket(ctx, x, y, 1.06, -Math.PI / 2);
+        if (!crashed) {
+            shipTilt += (horizontalThrust * 0.28 - shipTilt) * 0.18;
+            const reverseBurn = verticalThrust > 0;
+            drawCustomRocket(ctx, x, y, 1.06, -Math.PI / 2 + shipTilt, !reverseBurn);
+            if (reverseBurn) {
+                // Reverse flight cuts the main engine and fires two wing-mounted boosters backward.
+                ctx.save(); ctx.translate(x, y); ctx.rotate(shipTilt); ctx.fillStyle = '#ff9b56'; ctx.strokeStyle = '#fff2d9'; ctx.lineWidth = 1;
+                ctx.fillStyle = '#526c73'; ctx.fillRect(-25, -7, 8, 7); ctx.fillRect(17, -7, 8, 7);
+                ctx.fillStyle = '#ff9b56';
+                ctx.beginPath(); ctx.moveTo(-22, -3); ctx.lineTo(-22, 21); ctx.lineTo(-14, 5); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(22, -3); ctx.lineTo(22, 21); ctx.lineTo(14, 5); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#fff2d9'; ctx.fillRect(-20, 1, 4, 11); ctx.fillRect(16, 1, 4, 11); ctx.restore();
+            }
+        }
+        if (crashed) {
+            const burst = Math.min(1, crashAge / 0.35);
+            ctx.globalAlpha = Math.max(0, 1 - crashAge / 1.7);
+            ctx.fillStyle = '#ffb057'; ctx.beginPath(); ctx.arc(x, y, 18 + burst * 34, 0, Math.PI * 2); ctx.fill();
+            crashParticles.forEach(function (p) {
+                ctx.fillStyle = p.color; ctx.strokeStyle = '#fff2d9'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(1, p.size), 0, Math.PI * 2); ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+        }
         jbmUpgradeRoundBox(ctx, 12, game.h - 15, game.w - 24, 5, 3, '#265b60');
         jbmUpgradeRoundBox(ctx, 12, game.h - 15, (game.w - 24) * Math.min(1, elapsed / 30), 5, 3, '#b9f2dc');
         if (!started) {
@@ -1705,19 +2103,21 @@ function initAsteroidDodge(gameArea, instruction) {
             ctx.textAlign = 'center';
             ctx.fillText('Your rocket. Your adventure.', game.w / 2, 115, game.w - 24);
             ctx.font = '700 15px "Trebuchet MS", sans-serif';
-            ctx.fillText('Steer around the space rocks.', game.w / 2, 147, game.w - 24);
+            ctx.fillText('Move up and down to dodge. One hit ends the flight.', game.w / 2, 147, game.w - 24);
         }
     }
 
     function announce(extra) {
         if (extra) { notice = extra; noticeUntil = elapsed + 1.6; }
         const prefix = elapsed < noticeUntil ? notice + ' ' : '';
-        game.say(prefix + 'Time remaining: ' + Math.max(0, Math.ceil(30 - elapsed)) + ' seconds. Shields: ' + shields + ' of 3.');
+        game.say(prefix + 'Time remaining: ' + Math.max(0, Math.ceil(30 - elapsed)) + ' seconds. One life.');
     }
 
     function resetControls() {
         keys.clear();
         pointerTarget = null;
+        horizontalThrust = 0;
+        verticalThrust = 0;
         const id = pointerId;
         pointerId = null;
         if (id !== null) game.release(game.canvas, id);
@@ -1728,20 +2128,44 @@ function initAsteroidDodge(gameArea, instruction) {
         pointerTarget = { x: point.x, y: point.y };
     }
 
+    function startCrash() {
+        crashed = true;
+        crashAge = 0;
+        resetControls();
+        const cx = ship.x * game.w; const cy = ship.y * game.h;
+        crashParticles = [];
+        for (let i = 0; i < 34; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 55 + Math.random() * 190;
+            crashParticles.push({ x: cx, y: cy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, size: 2 + Math.random() * 4, life: 1, color: i % 3 ? '#ff9b56' : '#fff2d9' });
+        }
+        game.say('CRASH! Your rocket was hit. One life used.');
+        playError();
+        game.loop(function (dt) {
+            crashAge += Math.min(0.08, dt);
+            crashParticles.forEach(function (p) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 115 * dt; p.life = Math.max(0, p.life - dt * 0.75); });
+            draw();
+            if (crashAge >= 1.7) {
+                game.stopLoop();
+                game.finish('Your rocket crashed into an asteroid. One life only—try again and steer up or down sooner.', false);
+            }
+        });
+    }
+
     function advance(dt) {
+        if (crashed) return;
         const slices = Math.max(1, Math.ceil(dt * 60));
         const slice = dt / slices;
         for (let n = 0; n < slices; n++) {
             if (!game.live()) return;
             elapsed = Math.min(30, elapsed + slice);
-            safeTime = Math.max(0, safeTime - slice);
             spawnClock += slice;
             const spawnEvery = elapsed < 12 ? 1 : 0.82;
             if (spawnClock >= spawnEvery) {
                 spawnClock %= spawnEvery;
                 if (asteroids.length < 7) {
                     const r = 22 + Math.random() * 6;
-                    asteroids.push({ x: (r + Math.random() * Math.max(0, game.w - 2 * r)) / game.w, y: -r, r: r, speed: 78 + Math.random() * 30 + elapsed * 1.15 });
+                    asteroids.push({ x: (r + Math.random() * Math.max(0, game.w - 2 * r)) / game.w, y: -r, r: r, speed: 78 + Math.random() * 30 + elapsed * 1.15, rotation: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 1.8, points: Array.from({ length: 9 }, function () { return 0.82 + Math.random() * 0.3; }) });
                 }
             }
             let sx = ship.x * game.w;
@@ -1749,38 +2173,39 @@ function initAsteroidDodge(gameArea, instruction) {
             const horizontal = (keys.has('ArrowRight') || keys.has('d') ? 1 : 0) - (keys.has('ArrowLeft') || keys.has('a') ? 1 : 0);
             const vertical = (keys.has('ArrowDown') || keys.has('s') ? 1 : 0) - (keys.has('ArrowUp') || keys.has('w') ? 1 : 0);
             if (horizontal || vertical) {
+                horizontalThrust = horizontal;
+                verticalThrust = vertical;
                 const length = Math.hypot(horizontal, vertical);
-                sx += horizontal / length * 220 * slice;
-                sy += vertical / length * 220 * slice;
+                sx += horizontal / length * 245 * slice;
+                sy += vertical / length * 285 * slice;
                 pointerTarget = null;
             } else if (pointerTarget) {
                 const dx = pointerTarget.x - sx;
                 const dy = pointerTarget.y - sy;
+                horizontalThrust = Math.abs(dx) > 20 ? Math.sign(dx) : 0;
+                verticalThrust = Math.abs(dy) > 20 ? Math.sign(dy) : 0;
                 const distance = Math.hypot(dx, dy);
                 const movement = Math.min(distance, 360 * slice);
                 if (distance) { sx += dx / distance * movement; sy += dy / distance * movement; }
-            }
+            } else { horizontalThrust = 0; verticalThrust = 0; }
             sx = Math.max(25, Math.min(game.w - 25, sx));
-            sy = Math.max(78, Math.min(game.h - 48, sy));
+            sy = Math.max(66, Math.min(game.h - 48, sy));
             ship.x = sx / game.w;
             ship.y = sy / game.h;
+            if (verticalThrust <= 0) exhaust.push({ x: sx, y: sy + 28, size: 3 + Math.random() * 3, life: 1, color: Math.random() > 0.35 ? '#ffac69' : '#fff2d9' });
+            exhaust.forEach(function (p) { p.y += 38 * slice; p.life -= slice * 2.5; });
+            exhaust = exhaust.filter(function (p) { return p.life > 0; }).slice(-70);
             for (let i = asteroids.length - 1; i >= 0; i--) {
                 const rock = asteroids[i];
                 rock.y += rock.speed * slice;
+                rock.rotation += rock.spin * slice;
                 // An inset collision shape gives the nose/fins a forgiving margin.
                 const nearX = Math.max(sx - 13, Math.min(sx + 13, rock.x * game.w));
                 const nearY = Math.max(sy - 29, Math.min(sy + 29, rock.y));
-                if (safeTime === 0 && Math.hypot(rock.x * game.w - nearX, rock.y - nearY) < rock.r - 3) {
+                if (Math.hypot(rock.x * game.w - nearX, rock.y - nearY) < rock.r - 3) {
                     asteroids.splice(i, 1);
-                    shields--;
-                    safeTime = 1.6;
-                    playError();
-                    if (shields === 0) {
-                        draw();
-                        game.finish('Your shields need a recharge. Try again for a fresh rocket flight!', false);
-                        return;
-                    }
-                    announce('Bump! Safety bubble on.');
+                    startCrash();
+                    return;
                 } else if (rock.y - rock.r > game.h) {
                     asteroids.splice(i, 1);
                 }
@@ -1866,38 +2291,66 @@ function initAsteroidDodge(gameArea, instruction) {
             let items = [];
             let caught = 0;
             let animationId; let stopped = false;
+            const foods = ['pizza', 'taco', 'berry', 'cookie', 'juice', 'apple'];
             
             function spawnItem() {
-                const foods = ['PIZZA', 'TACO', 'BERRY', 'COOKIE', 'JUICE', 'APPLE'];
                 items.push({
                     x: 30 + Math.random() * Math.max(1, canvas.width - 60),
                     y: 30 + Math.random() * (canvas.height - 60),
                     vx: (Math.random() - 0.5) * 2,
                     vy: (Math.random() - 0.5) * 2,
-                    label: foods[Math.floor(Math.random() * foods.length)],
+                    kind: foods[Math.floor(Math.random() * foods.length)],
                     size: 32
                 });
             }
             
             for (let i = 0; i < 5; i++) spawnItem();
+
+            function drawFood(item) {
+                const x = item.x; const y = item.y; const s = item.size / 32;
+                ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+                ctx.shadowColor = '#183f4655'; ctx.shadowBlur = 7; ctx.shadowOffsetY = 3;
+                ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+                if (item.kind === 'pizza') {
+                    ctx.fillStyle = '#f6c65b'; ctx.strokeStyle = '#a95b37'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(-20, -15); ctx.lineTo(21, -5); ctx.lineTo(-7, 21); ctx.closePath(); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#e9784f'; ctx.beginPath(); ctx.moveTo(-19, -15); ctx.lineTo(21, -5); ctx.lineTo(16, 1); ctx.lineTo(-18, -7); ctx.closePath(); ctx.fill();
+                    [[-5,-4],[8,-2],[0,9]].forEach(p => { ctx.fillStyle = '#d8493e'; ctx.beginPath(); ctx.arc(p[0], p[1], 3.3, 0, Math.PI * 2); ctx.fill(); });
+                } else if (item.kind === 'taco') {
+                    ctx.fillStyle = '#f3be55'; ctx.strokeStyle = '#a95b37'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(0, 6, 20, Math.PI, 0); ctx.quadraticCurveTo(15, 23, 0, 18); ctx.quadraticCurveTo(-15, 23, -20, 6); ctx.closePath(); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#69a957'; ctx.beginPath(); ctx.moveTo(-16, 4); ctx.quadraticCurveTo(-6, -8, 0, 2); ctx.quadraticCurveTo(8, -9, 17, 4); ctx.lineTo(15, 10); ctx.quadraticCurveTo(0, 2, -15, 10); ctx.closePath(); ctx.fill();
+                    ctx.fillStyle = '#e66b50'; [[-8,8],[3,5],[10,9]].forEach(p => { ctx.beginPath(); ctx.arc(p[0], p[1], 2.8, 0, Math.PI * 2); ctx.fill(); });
+                } else if (item.kind === 'berry') {
+                    ctx.fillStyle = '#54a967'; ctx.beginPath(); ctx.ellipse(0, -15, 5, 11, -.7, 0, Math.PI * 2); ctx.fill();
+                    [[-9,-3],[0,-6],[9,-2],[-6,7],[5,8],[0,16]].forEach((p, i) => { ctx.fillStyle = i % 2 ? '#7b4aa6' : '#9a5fc2'; ctx.beginPath(); ctx.arc(p[0], p[1], 8, 0, Math.PI * 2); ctx.fill(); });
+                    ctx.fillStyle = '#dca8f0'; ctx.beginPath(); ctx.arc(-3,-9,2,0,Math.PI*2); ctx.fill();
+                } else if (item.kind === 'cookie') {
+                    ctx.fillStyle = '#d8954a'; ctx.strokeStyle = '#9b5c33'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#70402e'; [[-8,-8],[7,-7],[9,6],[-5,10],[0,1]].forEach(p => { ctx.beginPath(); ctx.arc(p[0],p[1],3,0,Math.PI*2); ctx.fill(); });
+                } else if (item.kind === 'juice') {
+                    ctx.fillStyle = '#f3a34e'; ctx.strokeStyle = '#a95b37'; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(-15,-18,30,36,5); ctx.fill(); ctx.stroke();
+                    ctx.strokeStyle = '#f5df9b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(3,-18); ctx.lineTo(9,-29); ctx.stroke();
+                    ctx.fillStyle = '#fff2d9'; ctx.font = '900 8px Trebuchet MS'; ctx.textAlign = 'center'; ctx.fillText('JUICE',0,3);
+                } else {
+                    ctx.fillStyle = '#e85c4f'; ctx.strokeStyle = '#9e433a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 3, 18, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#55a866'; ctx.beginPath(); ctx.ellipse(7,-18,9,5,-.45,0,Math.PI*2); ctx.fill();
+                    ctx.strokeStyle = '#70402e'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0,-14); ctx.lineTo(3,-24); ctx.stroke();
+                    ctx.fillStyle = '#ffb179'; ctx.beginPath(); ctx.arc(-6,-3,3,0,Math.PI*2); ctx.fill();
+                }
+                ctx.restore();
+            }
             
             function draw() {
                 if (stopped) return;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const backdrop = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                backdrop.addColorStop(0, '#123b5a'); backdrop.addColorStop(1, '#397b88');
+                ctx.fillStyle = backdrop; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffffff25';
+                for (let i = 0; i < 18; i++) { ctx.beginPath(); ctx.arc((i * 71 + 18) % canvas.width, (i * 43 + 20) % canvas.height, 1.4, 0, Math.PI * 2); ctx.fill(); }
                 
                 items.forEach((item, index) => {
-                    // Draw circle background
-                    ctx.fillStyle = '#ffd06d';
-                    ctx.beginPath();
-                    ctx.arc(item.x, item.y, 27, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Draw text label
-                    ctx.fillStyle = '#173d50';
-                    ctx.font = 'bold 11px Trebuchet MS';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(item.label, item.x, item.y);
+                    drawFood(item);
                     
                     item.x += item.vx;
                     item.y += item.vy;
@@ -1947,6 +2400,7 @@ function initAsteroidDodge(gameArea, instruction) {
 function initOrbitTiming(gameArea, instruction) {
     const game = jbmUpgradeSession(gameArea, instruction, initOrbitTiming,
         'Start orbit, then deploy while your rocket is inside the big mint landing zone. Tap Deploy, or press Space / Enter. One successful deployment wins; 3 tries.');
+    game.stage.style.height = '520px';
     const tau = Math.PI * 2;
     const speed = 0.88;
     let angle = -Math.PI / 2;
@@ -1955,18 +2409,38 @@ function initOrbitTiming(gameArea, instruction) {
     let elapsed = 0;
     let started = false;
     let lastDeploy = -Infinity;
+    let deployed = false;
+    let landingAge = 0;
+    let landingAngle = 0;
     const btn = game.button('Start orbit', activate);
     btn.style.minHeight = '60px';
     game.say('Ready to orbit Mars. The mint arc is your landing zone.');
 
     function geometry() {
-        const radius = Math.max(28, Math.min(game.w / 2 - 40, (game.h - 38) / 2 - 36));
+        const radius = Math.max(28, Math.min(game.w / 2 - 58, (game.h - 38) / 2 - 44));
         return { x: game.w / 2, y: game.h / 2 + 12, r: radius, half: Math.max(0.36, 25 / radius) };
     }
 
     function aligned() {
         const difference = Math.atan2(Math.sin(angle - targetAngle), Math.cos(angle - targetAngle));
         return Math.abs(difference) <= geometry().half;
+    }
+
+    function drawLander(ctx, x, y, scale, firing) {
+        ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
+        ctx.fillStyle = '#d8e7df'; ctx.strokeStyle = '#173d50'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(-18, -8); ctx.lineTo(18, -8); ctx.lineTo(14, 10); ctx.lineTo(-14, 10); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#f2b45f'; ctx.beginPath(); ctx.arc(0, -10, 10, Math.PI, 0); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#8ed5df'; ctx.beginPath(); ctx.arc(0, -5, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        // Solar panels, antenna, landing struts, and footpads make it read as a real lander.
+        ctx.fillStyle = '#397fc4'; ctx.strokeStyle = '#173d50'; ctx.lineWidth = 2;
+        ctx.fillRect(-31, -3, 10, 18); ctx.strokeRect(-31, -3, 10, 18); ctx.fillRect(21, -3, 10, 18); ctx.strokeRect(21, -3, 10, 18);
+        ctx.strokeStyle = '#9ec7dc'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(-26, -2); ctx.lineTo(-26, 14); ctx.moveTo(-31, 6); ctx.lineTo(-21, 6); ctx.moveTo(26, -2); ctx.lineTo(26, 14); ctx.moveTo(21, 6); ctx.lineTo(31, 6); ctx.stroke();
+        ctx.strokeStyle = '#173d50'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, -20); ctx.lineTo(0, -32); ctx.lineTo(6, -38); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-11, 8); ctx.lineTo(-23, 23); ctx.lineTo(-29, 23); ctx.moveTo(11, 8); ctx.lineTo(23, 23); ctx.lineTo(29, 23); ctx.stroke();
+        ctx.fillStyle = '#ffac69';
+        if (firing) { ctx.beginPath(); ctx.moveTo(-8, 10); ctx.quadraticCurveTo(0, 34 + Math.sin(landingAge * 32) * 4, 8, 10); ctx.closePath(); ctx.fill(); }
+        ctx.restore();
     }
 
     function draw() {
@@ -1987,7 +2461,7 @@ function initOrbitTiming(gameArea, instruction) {
         ctx.beginPath();
         ctx.arc(g.x, g.y, g.r, targetAngle - g.half, targetAngle + g.half);
         ctx.stroke();
-        const planetRadius = Math.max(18, Math.min(48, g.r - 34));
+        const planetRadius = Math.max(22, Math.min(54, g.r - 20));
         ctx.fillStyle = '#ff9985';
         ctx.beginPath();
         ctx.arc(g.x, g.y, planetRadius, 0, tau);
@@ -2010,13 +2484,38 @@ function initOrbitTiming(gameArea, instruction) {
             ctx.arc(rx, ry, 26, 0, tau);
             ctx.stroke();
         }
-        drawCustomRocket(ctx, rx, ry, 0.78, angle + Math.PI / 2);
+        if (!deployed) {
+            drawCustomRocket(ctx, rx, ry, 0.78, angle + Math.PI / 2);
+        } else {
+            const startX = g.x + Math.cos(landingAngle) * g.r;
+            const startY = g.y + Math.sin(landingAngle) * g.r;
+            ctx.save(); ctx.globalAlpha = Math.max(0, 1 - landingAge / 0.8);
+            drawCustomRocket(ctx, startX, startY, 0.78, landingAngle + Math.PI / 2);
+            ctx.restore();
+            const release = Math.min(1, landingAge / 0.65);
+            const descent = Math.max(0, Math.min(1, (landingAge - 0.65) / 1.8));
+            const eased = descent * descent * (3 - 2 * descent);
+            const targetX = g.x + planetRadius * 0.18;
+            const targetY = g.y - planetRadius - 20;
+            const lx = landingAge < 0.65 ? startX + release * 18 : startX + (targetX - startX) * eased;
+            const ly = landingAge < 0.65 ? startY + release * 8 : startY + (targetY - startY) * eased;
+            drawLander(ctx, lx, ly, 0.9, landingAge < 2.45);
+            if (landingAge > 2.35) {
+                ctx.globalAlpha = Math.min(1, (landingAge - 2.35) / 0.45);
+                ctx.fillStyle = '#f4e5c1aa';
+                for (let n = 0; n < 7; n++) { ctx.beginPath(); ctx.arc(targetX - 20 + n * 7, targetY + 18 - Math.sin(n) * 4, 5 + (n % 3) * 2, 0, tau); ctx.fill(); }
+                ctx.globalAlpha = 1;
+            }
+        }
         ctx.fillStyle = '#fff2d9';
         ctx.font = '800 14px "Trebuchet MS", sans-serif';
-        ctx.fillText(started && aligned() ? 'IN THE ZONE / DEPLOY NOW' : 'ONE GOOD DEPLOYMENT WINS', game.w / 2, game.h - 18, game.w - 20);
-        if (started) {
+        ctx.fillText(deployed ? 'LANDER DESCENDING / TOUCHDOWN' : (started && aligned() ? 'IN THE ZONE / DEPLOY NOW' : 'ONE GOOD DEPLOYMENT WINS'), game.w / 2, game.h - 18, game.w - 20);
+        if (started && !deployed) {
             btn.textContent = aligned() ? 'Deploy now!' : 'Deploy lander';
             btn.style.background = aligned() ? '#b9f2dc' : '#fff2d9';
+        } else if (deployed) {
+            btn.textContent = 'Lander descending...';
+            btn.disabled = true;
         }
     }
 
@@ -2044,7 +2543,19 @@ function initOrbitTiming(gameArea, instruction) {
         const success = aligned();
         draw();
         if (success) {
-            game.finish('Right on target! Your rocket is safely in Mars orbit. First successful deployment wins!', true);
+            deployed = true;
+            landingAge = 0;
+            landingAngle = angle;
+            playSuccess();
+            game.say('Lander deployed! Watch it descend from the rocket to the Martian surface.');
+            game.loop(function (dt) {
+                landingAge += Math.min(0.08, dt);
+                draw();
+                if (landingAge >= 3.2) {
+                    game.stopLoop();
+                    game.finish('Touchdown! The lander deployed from your rocket and landed safely on Mars.', true);
+                }
+            });
         } else {
             playError();
             if (attempts === 3) game.finish('Three practice deployments. Try again and wait for your rocket to enter the mint zone.', false);
@@ -2263,9 +2774,8 @@ function initOrbitTiming(gameArea, instruction) {
         // GAME 11: Ship Repair
 function initShipRepair(gameArea, instruction) {
     const game = jbmUpgradeSession(gameArea, instruction, initShipRepair,
-        'Seal all 15 leaks to get home. Tap the big coral repair patches, or Tab to a patch and press Enter. Number keys 1–9 also work. Every open leak uses air; each repair restores a little.');
-    // Five rows on narrow screens still have 60px spacing for 52px patches.
-    game.stage.style.height = '420px';
+        'Repair the metal cabin wall in 50 seconds. Find the animated air leaks, then place one patch on each. Tap a leak or press its number key.');
+    game.stage.style.height = '520px';
     let repairs = 0;
     let air = 100;
     let elapsed = 0;
@@ -2275,8 +2785,10 @@ function initShipRepair(gameArea, instruction) {
     let notice = '';
     let noticeUntil = 0;
     let leaks = [];
+    const totalLeaks = 12;
+    const timeLimit = 50;
     const start = game.button('Start repair mission', begin);
-    game.say('Ready for the trip home. Air stays full until you start. Seal 15 leaks.');
+    game.say('Ready for the trip home. You have 50 seconds to seal every animated leak.');
 
     function position(slot) {
         const columns = game.w >= 310 ? 3 : 2;
@@ -2290,34 +2802,53 @@ function initShipRepair(gameArea, instruction) {
     }
 
     function draw() {
-        jbmUpgradeBackdrop(game, 'FLIGHT HOME / PATCH ' + repairs + ' OF 15', elapsed);
         const ctx = game.ctx;
-        ctx.save();
-        ctx.globalAlpha = 0.4;
-        drawCustomRocket(ctx, game.w / 2, game.h / 2 + 12, Math.min(2.8, (game.w - 24) / 86), 0);
-        ctx.restore();
+        const wall = ctx.createLinearGradient(0, 0, game.w, game.h);
+        wall.addColorStop(0, '#8dabb0'); wall.addColorStop(.5, '#536f79'); wall.addColorStop(1, '#263f50');
+        ctx.fillStyle = wall; ctx.fillRect(0, 0, game.w, game.h);
+        ctx.fillStyle = '#18303e'; ctx.fillRect(0, 0, game.w, 34);
+        ctx.fillStyle = '#e5f2e8'; ctx.font = '900 12px "Trebuchet MS", sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('CABIN PRESSURE WALL  /  REPAIR DECK', game.w / 2, 19, game.w - 20);
+        ctx.strokeStyle = '#bcd1cf55'; ctx.lineWidth = 2;
+        for (let x = 18; x < game.w; x += 92) { ctx.beginPath(); ctx.moveTo(x, 42); ctx.lineTo(x, game.h - 48); ctx.stroke(); }
+        for (let y = 76; y < game.h - 60; y += 92) { ctx.beginPath(); ctx.moveTo(10, y); ctx.lineTo(game.w - 10, y); ctx.stroke(); }
+        for (let x = 22; x < game.w - 8; x += 46) {
+            [48, game.h - 54].forEach(y => { ctx.fillStyle = '#d6e1d7'; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#314d58'; ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI * 2); ctx.fill(); });
+        }
+        ctx.strokeStyle = '#1b3442'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(14, 68); ctx.bezierCurveTo(game.w * .28, 105, game.w * .5, 56, game.w - 14, 92); ctx.stroke();
+        ctx.strokeStyle = '#e0a052'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(14, 68); ctx.bezierCurveTo(game.w * .28, 105, game.w * .5, 56, game.w - 14, 92); ctx.stroke();
+        [[28,68],[game.w - 28,92],[game.w * .5,77]].forEach(p => { ctx.fillStyle = '#e6e4c5'; ctx.beginPath(); ctx.arc(p[0], p[1], 7, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#203c4a'; ctx.lineWidth = 2; ctx.stroke(); });
         leaks.forEach(function (leak) {
             const p = position(leak.slot);
-            leak.btn.style.left = (p.x - 26) + 'px';
-            leak.btn.style.top = (p.y - 26) + 'px';
-            ctx.strokeStyle = '#ff9985';
-            ctx.globalAlpha = 0.3 + 0.15 * Math.sin(elapsed * 4 + leak.slot);
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 29 + 2 * Math.sin(elapsed * 4 + leak.slot), 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
+            leak.btn.style.left = (p.x - 29) + 'px'; leak.btn.style.top = (p.y - 29) + 'px';
+            const pulse = 0.35 + 0.22 * Math.sin(elapsed * 7 + leak.slot);
+            ctx.globalAlpha = pulse; ctx.strokeStyle = '#ff786c'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 25 + 5 * Math.sin(elapsed * 5 + leak.slot), 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
+            ctx.fillStyle = '#171f2a'; ctx.beginPath(); ctx.arc(p.x, p.y, 13, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#ff786c'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(p.x - 10, p.y - 3); ctx.lineTo(p.x - 3, p.y + 2); ctx.lineTo(p.x + 4, p.y - 5); ctx.lineTo(p.x + 11, p.y + 3); ctx.stroke();
+            // Directional air jets make the leak unmistakable instead of looking like
+            // static dots: each stream bends and pulses away from the crack.
+            const stream = .55 + .25 * Math.sin(elapsed * 8 + leak.slot);
+            ctx.save();
+            ctx.globalAlpha = stream;
+            ctx.strokeStyle = '#e8fff6'; ctx.lineWidth = 2;
+            for (let jet = 0; jet < 3; jet++) {
+                const drift = Math.sin(elapsed * 5 + leak.slot + jet) * 7;
+                const rise = (elapsed * 30 + jet * 15 + leak.slot * 7) % 52;
+                ctx.beginPath();
+                ctx.moveTo(p.x - 9 + jet * 9, p.y - 16);
+                ctx.quadraticCurveTo(p.x - 8 + jet * 9 + drift, p.y - 28 - rise * .45, p.x - 5 + jet * 9 + drift, p.y - 39 - rise);
+                ctx.stroke();
+                ctx.fillStyle = '#dff8ef';
+                ctx.beginPath(); ctx.arc(p.x - 5 + jet * 9 + drift, p.y - 39 - rise, 2.5, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.restore();
         });
-        jbmUpgradeRoundBox(ctx, 14, game.h - 30, game.w - 28, 14, 7, '#265b60');
-        jbmUpgradeRoundBox(ctx, 14, game.h - 30, (game.w - 28) * Math.max(0, air / 100), 14, 7, air < 25 ? '#ff9985' : '#b9f2dc');
-        ctx.fillStyle = '#fff2d9';
-        ctx.font = '800 12px "Trebuchet MS", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('AIR ' + Math.max(0, Math.ceil(air)) + '%', game.w / 2, game.h - 42);
-        if (!started) {
-            ctx.font = '900 22px "Trebuchet MS", sans-serif';
-            ctx.fillText('Keep your rocket shipshape.', game.w / 2, 101, game.w - 24);
-        }
+        jbmUpgradeRoundBox(ctx, 14, game.h - 30, game.w - 28, 14, 7, '#18303e');
+        jbmUpgradeRoundBox(ctx, 14, game.h - 30, (game.w - 28) * Math.max(0, air / 100), 14, 7, air < 25 ? '#ff786c' : '#b9f2dc');
+        ctx.fillStyle = '#fff2d9'; ctx.font = '800 12px "Trebuchet MS", sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('AIR ' + Math.max(0, Math.ceil(air)) + '%   /   TIME ' + Math.max(0, Math.ceil(timeLimit - elapsed)) + 's', game.w / 2, game.h - 42);
+        if (!started) { ctx.font = '900 22px "Trebuchet MS", sans-serif'; ctx.fillText('Find the leaks in the metal wall.', game.w / 2, 155, game.w - 24); }
     }
 
     function announce(extra) {
@@ -2325,7 +2856,7 @@ function initShipRepair(gameArea, instruction) {
         if (extra) { notice = extra; noticeUntil = elapsed + 1.8; }
         const bucket = Math.max(0, Math.ceil(air / 5) * 5);
         const prefix = elapsed < noticeUntil ? notice + ' ' : '';
-        game.say(prefix + 'Repairs: ' + repairs + ' of 15. Open leaks: ' + leaks.length + '. Air: ' + bucket + ' percent.');
+        game.say(prefix + 'Repairs: ' + repairs + ' of ' + totalLeaks + '. Open leaks: ' + leaks.length + '. Time: ' + Math.max(0, Math.ceil(timeLimit - elapsed)) + ' seconds.');
     }
 
     function seal(leak) {
@@ -2335,11 +2866,11 @@ function initShipRepair(gameArea, instruction) {
         leak.btn.remove();
         leaks = leaks.filter(function (item) { return item !== leak; });
         repairs++;
-        air = Math.min(100, air + 4);
+        air = Math.min(100, air + 7);
         playClick();
         draw();
-        if (repairs === 15) {
-            game.finish('All 15 leaks sealed! Your custom rocket is ready to carry you safely home.', true);
+        if (repairs === totalLeaks) {
+            game.finish('All ' + totalLeaks + ' air leaks sealed! The metal cabin wall is holding pressure.', true);
             return;
         }
         announce('Patch sealed. A little air restored!');
@@ -2350,7 +2881,7 @@ function initShipRepair(gameArea, instruction) {
     }
 
     function spawnLeak() {
-        if (spawned >= 15 || leaks.length >= 5) return;
+        if (spawned >= totalLeaks || leaks.length >= 4) return;
         const slots = [];
         for (let i = 0; i < 9; i++) {
             if (!leaks.some(function (leak) { return leak.slot === i; })) slots.push(i);
@@ -2365,9 +2896,9 @@ function initShipRepair(gameArea, instruction) {
         });
         if (!eligible.length) return;
         const slot = eligible[Math.floor(Math.random() * eligible.length)];
-        const btn = jbmUpgradeButton(String(slot + 1));
-        btn.style.cssText += 'position:absolute;width:52px;height:52px;padding:0;background:#ff9985;border:3px solid #fff2d9;border-radius:18px;font-size:24px;box-shadow:0 3px 0 #9c5a50;';
-        btn.setAttribute('aria-label', 'Seal leak ' + (slot + 1) + '. Repair patch.');
+        const btn = jbmUpgradeButton('PATCH');
+        btn.style.cssText += 'position:absolute;z-index:4;width:58px;height:58px;padding:0;background:radial-gradient(circle at 35% 28%, #fff1c9 0 8%, transparent 9%),linear-gradient(145deg,#ffcc78,#d7794d);border:3px solid #fff2d9;border-radius:50%;font-size:10px;letter-spacing:.05em;box-shadow:0 3px 0 #9c5a50, inset 0 0 0 3px #d78a58;';
+        btn.setAttribute('aria-label', 'Patch air leak ' + (slot + 1));
         game.stage.appendChild(btn);
         const leak = { slot: slot, btn: btn, off: null };
         leak.off = game.on(btn, 'click', function () { seal(leak); });
@@ -2379,7 +2910,7 @@ function initShipRepair(gameArea, instruction) {
         if (started || !game.live()) return;
         started = true;
         start.disabled = true;
-        start.textContent = 'Seal the coral patches';
+        start.textContent = 'Patch the leaks';
         playClick();
         spawnLeak();
         spawnLeak();
@@ -2391,9 +2922,9 @@ function initShipRepair(gameArea, instruction) {
             // Air use depends on both real simulation time and the number of open leaks.
             // No leaks means no loss. A fast patch restores 4%, making recovery possible.
             air = Math.max(0, air - leaks.length * 2.4 * dt);
-            if (air <= 0) {
+            if (air <= 0 || elapsed >= timeLimit) {
                 draw();
-                game.finish('The practice air tank is empty. Try again with a full tank; seal open patches to slow the air loss.', false);
+                game.finish('Time ran out before the cabin wall was sealed. Try again and patch each animated leak quickly.', false);
                 return;
             }
             spawnClock += dt;
@@ -2409,12 +2940,31 @@ function initShipRepair(gameArea, instruction) {
         const leak = leaks.find(function (item) { return item.slot === slot; });
         if (leak) { event.preventDefault(); seal(leak); }
     }, true);
+    // The crack itself is also tappable. This fixes missed clicks when the patch
+    // button is visually over a narrow leak or on a touch screen.
+    game.on(game.canvas, 'pointerdown', function (event) {
+        if (!started || !game.live()) return;
+        const rect = game.canvas.getBoundingClientRect();
+        const x = (event.clientX - rect.left) * game.w / rect.width;
+        const y = (event.clientY - rect.top) * game.h / rect.height;
+        let nearest = null; let distance = Infinity;
+        leaks.forEach(function (leak) {
+            const p = position(leak.slot);
+            const d = Math.hypot(x - p.x, y - p.y);
+            if (d < distance) { distance = d; nearest = leak; }
+        });
+        if (nearest && distance <= 42) { event.preventDefault(); seal(nearest); }
+    }, true);
     game.onResize(draw);
 }
 
         // GAME 12: Fireworks
         function initFireworks(gameArea, instruction) {
-            instruction.textContent = 'Welcome home! Tap the sky to launch 5 colorful fireworks and finish your mission.';
+            const rewardShow = dinoFound.size === 12;
+            const fireworkGoal = rewardShow ? 12 : 5;
+            instruction.textContent = rewardShow ? 'Dino Quest reward! MrBeast is visiting Johnny. Tap the sky to launch 12 giant money fireworks!' : 'Welcome home! Tap the sky to launch 5 colorful fireworks and finish your mission.';
+            const beastLogoImage = new Image();
+            beastLogoImage.src = 'https://cdn.brandfetch.io/idhVeuLkVx/w/1080/h/1080/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX';
             
             const canvas = document.createElement('canvas');
             canvas.width = gameArea.offsetWidth - 40;
@@ -2423,12 +2973,14 @@ function initShipRepair(gameArea, instruction) {
             const ctx = canvas.getContext('2d');
             
             let particles = [];
+            let logoBursts = [];
             let animationId; let stopped = false; let launched = 0;
-            const status = document.createElement('div'); status.className = 'game-status'; status.textContent = 'Celebration: 0/5'; gameArea.appendChild(status);
+            const status = document.createElement('div'); status.className = 'game-status'; status.textContent = `Celebration: 0/${fireworkGoal}`; gameArea.appendChild(status);
             
-            function createFirework(x, y) {
-                const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ffd93d', '#ff8b94'];
+            function createFirework(x, y, logoBurst = false) {
+                const colors = rewardShow ? ['#ffd447', '#fff2a8', '#91d77b', '#f4b942', '#ffffff'] : ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ffd93d', '#ff8b94'];
                 const color = colors[Math.floor(Math.random() * colors.length)];
+                if (logoBurst) logoBursts.push({x, y, life: 1});
                 
                 for (let i = 0; i < 50; i++) {
                     const angle = (Math.PI * 2 * i) / 50;
@@ -2439,7 +2991,8 @@ function initShipRepair(gameArea, instruction) {
                         vx: Math.cos(angle) * speed,
                         vy: Math.sin(angle) * speed,
                         life: 1,
-                        color: color
+                        color: color,
+                        moneyType: rewardShow ? (i % 2 === 0 ? 'bill' : 'coin') : ''
                     });
                 }
             }
@@ -2462,10 +3015,87 @@ function initShipRepair(gameArea, instruction) {
                     
                     ctx.fillStyle = p.color;
                     ctx.globalAlpha = p.life;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (p.moneyType === 'bill') {
+                        // A tumbling paper banknote: green paper, border, band, and seal.
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(Math.sin(p.life * 9) * .45);
+                        ctx.fillStyle = '#b9e39b';
+                        ctx.strokeStyle = '#397748';
+                        ctx.lineWidth = 1.5;
+                        ctx.fillRect(-11, -6, 22, 12);
+                        ctx.strokeRect(-11, -6, 22, 12);
+                        ctx.fillStyle = '#5ca260';
+                        ctx.fillRect(-5, -6, 2, 12);
+                        ctx.fillRect(3, -6, 2, 12);
+                        ctx.strokeStyle = '#75ba71';
+                        ctx.beginPath(); ctx.arc(0, 0, 3.2, 0, Math.PI * 2); ctx.stroke();
+                        ctx.fillStyle = '#28683d';
+                        ctx.font = '900 7px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.fillText('$', 0, .5);
+                        ctx.restore();
+                    } else if (p.moneyType === 'coin') {
+                        // A bright gold coin with a raised rim and dollar mark.
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.fillStyle = '#f7c842';
+                        ctx.strokeStyle = '#9d6917';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                        ctx.strokeStyle = '#ffe88a';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.arc(0, 0, 4, 0, Math.PI * 2); ctx.stroke();
+                        ctx.fillStyle = '#9d6917';
+                        ctx.font = '900 8px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.fillText('$', 0, .5);
+                        ctx.restore();
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
                     ctx.globalAlpha = 1;
+                });
+
+                logoBursts.forEach((logo, index) => {
+                    logo.life -= .012;
+                    if (logo.life <= 0) { logoBursts.splice(index, 1); return; }
+                    const size = 19 + (1 - logo.life) * 28;
+                    ctx.save();
+                    ctx.globalAlpha = Math.min(1, logo.life * 1.8);
+                    ctx.translate(logo.x, logo.y);
+                    if (beastLogoImage.complete && beastLogoImage.naturalWidth) {
+                        ctx.drawImage(beastLogoImage, -size, -size, size * 2, size * 2);
+                        ctx.restore();
+                        return;
+                    }
+                    const logoGradient = ctx.createLinearGradient(-size, -size, size, size);
+                    logoGradient.addColorStop(0, '#ff4fa3');
+                    logoGradient.addColorStop(.5, '#ff79c8');
+                    logoGradient.addColorStop(1, '#43baff');
+                    const s = size / 28;
+                    ctx.scale(s, s);
+                    ctx.lineJoin = 'round';
+                    ctx.lineWidth = 2.4;
+                    // Stylized pink-and-blue beast/tiger head silhouette.
+                    ctx.fillStyle = logoGradient; ctx.strokeStyle = '#e8f8ff';
+                    ctx.beginPath();
+                    ctx.moveTo(-22, -10); ctx.lineTo(-25, -27); ctx.lineTo(-10, -20);
+                    ctx.quadraticCurveTo(0, -25, 10, -20); ctx.lineTo(25, -27); ctx.lineTo(22, -10);
+                    ctx.quadraticCurveTo(28, 8, 13, 20); ctx.lineTo(7, 28); ctx.lineTo(0, 22);
+                    ctx.lineTo(-7, 28); ctx.lineTo(-13, 20); ctx.quadraticCurveTo(-28, 8, -22, -10); ctx.closePath();
+                    ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath(); ctx.moveTo(-13, -8); ctx.quadraticCurveTo(-7, -14, -2, -7); ctx.quadraticCurveTo(-7, -2, -13, -8); ctx.fill();
+                    ctx.beginPath(); ctx.moveTo(13, -8); ctx.quadraticCurveTo(7, -14, 2, -7); ctx.quadraticCurveTo(7, -2, 13, -8); ctx.fill();
+                    ctx.fillStyle = '#173f78';
+                    ctx.beginPath(); ctx.arc(-8, -8, 2.4, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(8, -8, 2.4, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#173f78'; ctx.lineWidth = 2.2;
+                    ctx.beginPath(); ctx.moveTo(-18, 2); ctx.lineTo(-9, 5); ctx.moveTo(-18, 8); ctx.lineTo(-9, 9); ctx.moveTo(18, 2); ctx.lineTo(9, 5); ctx.moveTo(18, 8); ctx.lineTo(9, 9); ctx.stroke();
+                    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(-5, 1); ctx.lineTo(0, 5); ctx.lineTo(5, 1); ctx.lineTo(0, 10); ctx.closePath(); ctx.fill();
+                    ctx.fillStyle = '#ff4f9f'; ctx.beginPath(); ctx.ellipse(0, 14, 6, 3.2, 0, 0, Math.PI * 2); ctx.fill();
+                    ctx.restore();
                 });
                 
                 animationId = requestAnimationFrame(draw);
@@ -2474,9 +3104,10 @@ function initShipRepair(gameArea, instruction) {
             canvas.addEventListener('pointerdown', e => {
                 if (stopped) return; e.preventDefault();
                 const rect = canvas.getBoundingClientRect();
-                createFirework((e.clientX - rect.left) * canvas.width / rect.width, (e.clientY - rect.top) * canvas.height / rect.height);
-                launched++; status.textContent = `Celebration: ${launched}/5`; playClick();
-                if (launched >= 5) { completedGames.add(currentPage); updateProgress(); syncMissionSnapshot(true); status.textContent = 'Welcome home, rocket designer! Save My Book to keep this adventure.'; }
+                const isFinalMoneyFirework = rewardShow && launched === fireworkGoal - 1;
+                createFirework((e.clientX - rect.left) * canvas.width / rect.width, (e.clientY - rect.top) * canvas.height / rect.height, isFinalMoneyFirework);
+                launched++; status.textContent = `Celebration: ${launched}/${fireworkGoal}`; playClick();
+                if (launched >= fireworkGoal) { completedGames.add(currentPage); updateProgress(); syncMissionSnapshot(true); status.textContent = rewardShow ? 'MrBeast cheers: that was a spectacular Dino Quest finale!' : 'Welcome home, rocket designer! Save My Book to keep this adventure.'; }
             });
 
             draw();
@@ -2491,7 +3122,7 @@ function initShipRepair(gameArea, instruction) {
         document.getElementById('muteBtn').textContent = isMuted ? 'Sound off' : 'Sound on';
         document.getElementById('muteBtn').setAttribute('aria-pressed', String(isMuted));
         document.getElementById('muteBtn').setAttribute('aria-label', isMuted ? 'Unmute sound' : 'Mute sound');
-        setCustomRocketImage(); createPages(); refreshRocketBadges(); showPage(currentPage);
+        setCustomRocketImage(); createPages(); refreshRocketBadges(); updateDinoUI(); showPage(currentPage);
         if (currentPage > 0 || rocketDesign.artwork) document.getElementById('openBookBtn').textContent = 'Resume page ' + (currentPage + 1) + ' →';
         document.getElementById('saveBookBtn').addEventListener('click', downloadPersonalBook);
         document.getElementById('loadBookBtn').addEventListener('click', () => document.getElementById('missionFileInput').click());
@@ -2509,6 +3140,18 @@ function initShipRepair(gameArea, instruction) {
             document.getElementById('bookContainer').style.display = 'block';
             document.body.classList.add('book-open');
             showPage(currentPage);
+        });
+
+        document.getElementById('dinoRewardBtn').addEventListener('click', () => {
+            playSuccess();
+            document.getElementById('dinoReward').classList.remove('show');
+            bookOpened = true;
+            document.getElementById('titlePage').style.display = 'none';
+            document.getElementById('bookContainer').style.display = 'block';
+            document.body.classList.add('book-open');
+            if (currentPage !== 11) showPage(11);
+            else { if (currentGameCleanup) { currentGameCleanup(); currentGameCleanup = null; } initGame(11); }
+            showDinoToast('MrBeast is here! Tap the sky to launch the reward fireworks!');
         });
 
         // Preload images
